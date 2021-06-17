@@ -1,0 +1,70 @@
+<template>
+<body>
+   <v-header :template="template"/>
+
+  <router-view/>
+  <v-footer/>
+  </body>
+</template>
+
+<script>
+import axios from "axios";
+import vHeader from '@/components/v-header.vue'
+import vFooter from '@/components/v-footer.vue'
+
+export default {
+  name: "app",
+  components: {
+    vHeader,
+    vFooter
+  },
+  data(){
+    return{
+      template: `
+          <h1>vffvdfd</h1>
+        `
+    }
+  },
+  methods: {
+    test: function () {
+      //var login = document.getElementById("admin_login").value;
+      //let password = document.getElementById("admin_password").value;
+      //let params = { login: `${login}`, password: `${password}` };
+      
+      // axios
+      //   .get("http://localhost/php/index.php")
+      //   .then(function (response) {
+      //     document.getElementById("btn") = response.data;
+      //   });
+    },
+  },
+};
+</script>
+
+<style>
+
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* :root{
+    --main-bg: #f5f5f5;
+    --color-primary: #f63;
+    --hover-color: #ff7e53
+} */
+#app {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+
+}
+::placeholder{
+  font-family: 'Open Sans', sans-serif;
+}
+
+</style>
