@@ -14,6 +14,11 @@
 
 export default {
   name: "v-catalog-item",
+  data() {
+    return{
+      
+    }
+  },
   props: {
       name: String,
       price: Float32Array
