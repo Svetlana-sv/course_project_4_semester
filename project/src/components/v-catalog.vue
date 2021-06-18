@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-catalog {
   margin-top: 30px;
   display: grid;
@@ -101,7 +101,7 @@ export default {
   grid-template-rows: 0.1fr 1.9fr 0fr;
   gap: 30px 15px;
   grid-template-areas:
-    ". search ."
+    "category search ."
     "category items ."
     ". . .";
 }
@@ -118,11 +118,11 @@ export default {
 .v-catalog__list {
   display: grid;
   max-width: 100%;
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(auto-fill, 250px);
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .search__input {

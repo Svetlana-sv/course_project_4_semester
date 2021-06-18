@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 p{
   padding: 0;
   margin: 0;
@@ -54,5 +54,7 @@ p{
   width: 85px;
   height: 35px;
   border-radius: 20px;
+  cursor: pointer;
+  font-size: var(--font--s--btn);
 }
 </style>

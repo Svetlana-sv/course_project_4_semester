@@ -16,7 +16,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .main {
   background-image: url("../assets/image/background_img.png");
   background-repeat: no-repeat;
@@ -26,10 +26,9 @@ export default {
   height: 500px;
 }
 .main__content {
-  width: 1000px;
-  padding-top: 50px;
-  padding-left: 150px;
-  text-align: left;
+  max-width: 1000px;
+  margin: auto;
+  padding-top: 100px;
 }
 .content__text {
   text-transform: uppercase;
@@ -42,14 +41,45 @@ export default {
   background: #13e202;
   border: 3px solid #ffffff;
   outline: none;
-  font-size: 32px;
+  font-size: 2em;
   color: #fff;
   width: 250px;
   height: 60px;
   margin-top: 50px;
-  font-family: SeoulNamsan CM;
+  
 }
 .main__button:hover {
   background-color: #47aa3e;
+}
+
+@media screen and (max-width: 400px) {
+  .main__content{
+    padding: 5px;
+  }
+  .content__text{
+    font-size: 30px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .main__content{
+    padding: 10px;
+  }
+  .content__text{
+    font-size: 45px;
+    text-align: center !important;
+  }
+  .main__button{
+    margin-top: 10px;
+  }
+  .main{
+    height: 100%;
+  }
+
+}
+@media screen and (max-width: 1100px) {
+.main__content{
+  padding: 20px;
+  text-align: center;
+}
 }
 </style>

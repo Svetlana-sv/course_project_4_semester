@@ -42,18 +42,19 @@ export default {
 </script>
 
 <style>
-
+:root{
+    --font--s--btn: 0.9em;
+    --color-primary: #f63;
+    --hover-color: #ff7e53
+}
 body{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 
-/* :root{
-    --main-bg: #f5f5f5;
-    --color-primary: #f63;
-    --hover-color: #ff7e53
-} */
+
 #app {
   font-family: 'Open Sans', sans-serif;
   font-weight: 500;
@@ -64,6 +65,13 @@ body{
 
 }
 ::placeholder{
+  font-family: 'Open Sans', sans-serif;
+}
+p{
+   padding: 0;
+  margin: 0;
+}
+button{
   font-family: 'Open Sans', sans-serif;
 }
 
