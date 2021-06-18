@@ -28,6 +28,7 @@ export default {
 
 <style scoped>
 .v-header {
+  position: -webkit-sticky;
   position: sticky;
   left: 0;
   top: 0;
@@ -64,7 +65,7 @@ ul {
 }
 a {
   text-decoration: none;
-  color: black;
+  color: rgb(0, 0, 0);
   font-size: 1.5em;
 }
 a:hover {

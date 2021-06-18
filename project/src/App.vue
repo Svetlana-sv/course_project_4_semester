@@ -47,11 +47,20 @@ export default {
     --color-primary: #f63;
     --hover-color: #ff7e53
 }
+html{
+  height: 100%;
+}
+a{
+  text-decoration: none;
+  color: #000;
+}
 body{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
+    min-height: 100%;
+    position: relative; 
 }
 
 

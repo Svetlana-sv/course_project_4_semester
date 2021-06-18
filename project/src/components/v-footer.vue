@@ -14,21 +14,17 @@
 
 <script>
 export default {
-  name: "v-footer",
-  data() {
-    //это персональные данные
-    return {
-      title: "card",
-    };
-  },
+  name: "v-footer"
 };
 </script>
 
 <style scoped>
 .v-footer {
-  position: static;
+  
+  position: -webkit-fixed;
+  position: fixed;
+  left: 0;
   bottom: 0;
-  top: 0;
   width: 100%;
   min-height: 60px;
   background: #13e202;

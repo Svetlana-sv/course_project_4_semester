@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main__content">
       <div class="content__text">Ваша доставка - Ваша Еда Выбирай с умом</div>
-      <button class="main__button">Заказать</button>
+      <button class="main__button"><router-link to="/catalog">Заказать</router-link></button>
     </div>
   </div>
 </template>
@@ -47,6 +47,9 @@ export default {
   height: 60px;
   margin-top: 50px;
   
+}
+.main__button a{
+  color: #fff;
 }
 .main__button:hover {
   background-color: #47aa3e;
