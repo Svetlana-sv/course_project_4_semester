@@ -11,49 +11,38 @@
 
     <div class="category">
       <h1>Категория</h1>
+      <div  class="category__products"  @click="ChooseCategory(-1)">
+         <a class="category__products_item">Все категории</a>
+      </div>
       <div
+        @click="ChooseCategory(category.category_id)"
         class="category__products"
         v-for="(category, index) in category_products"
         :key="index"
       >
-        <a class="category__products_item">{{ category.name_category }}</a>
+        <a class="category__products_item">{{ category.category_name }}</a>
       </div>
       <h1>Магазин</h1>
-      <div class="category__shops_item"
-      v-for="(shop, index) in shops"
-          :key="index"
+      <a class="category__shops_item"  @click="ChooseShop(-1)">Все магазины</a>
+      <div
+      @click="ChooseShop(shop.shop_id)"
+        class="category__shops_item"
+        v-for="(shop, index) in shops"
+        :key="index"
       >
-        <input
-          class="category__checkbox"
-          type="checkbox"
-          :id="shop.shop_name"
-          v-model="checked"
-        />
-        <label :for="shop.shop_name">{{shop.shop_name}}</label>
+        <a class="category__shops_item">{{ shop.shop_name }}</a>
       </div>
     </div>
 
     <div class="items">
       <div class="v-catalog__list">
         <v-catalog-item
-          :name="food.title"
+          :name="food.product_name"
+          :description="food.product_discription"
           :price="food.price"
           :product_image="food.product_image"
-          v-for="(food, index) in filter_products"
-          :key="index"
-        />
-         <v-catalog-item
-          :name="food.title"
-          :price="food.price"
-          :product_image="food.product_image"
-          v-for="(food, index) in filter_products"
-          :key="index"
-        />
-         <v-catalog-item
-          :name="food.title"
-          :price="food.price"
-          :product_image="food.product_image"
-          v-for="(food, index) in filter_products"
+          :product_info="food"
+          v-for="(food, index) in search_products"
           :key="index"
         />
       </div>
@@ -75,62 +64,77 @@ export default {
   data() {
     //это персональные данные
     return {
+      current_id_categories: -1,
+      current_id_shops: -1,
       search: '',
       products: [
         {
           id: 1,
-          title: "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
+          product_name: "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
           price: 79.0,
           product_image: 'https://www.pngkit.com/png/full/67-671010_milk-png-free-download-milk-in-a-pint.png'
         },
         {
           id: 2,
-          title: "as2",
+          product_name: "as2",
           price: 79.0,
           product_image: 'https://static.tildacdn.com/tild3333-6362-4031-a631-623532386533/banan_1.png'
         },
         {
           id: 3,
-          title: "as3",
+          product_name: "as3",
           price: 79.0,
           product_image: 'https://pngimg.com/uploads/potato/potato_PNG98085.png'
         },
         {
           id: 4,
-          title: "as4",
+          product_name: "as4",
           price: 79.0,
           product_image: 'https://2.bp.blogspot.com/-pjWnt7Zripk/Xubp-Nzx_iI/AAAAAAAA008/UWtEjZUH0Bosu4NCjvkjynigX1tqk4rngCK4BGAYYCw/s1600/%25D1%2585%25D0%25BB%25D0%25B5%25D0%25B1_%2BDoV%2B%25286%2529.png'
         }
       ],
       category_products: [
-        {
-          id: 1,
-          name_category: "Молочные продукты",
-        },
-        {
-          id: 2,
-          name_category: "Фрукты и овощи",
-        }
+        // {
+        //   category_id: 1,
+        //   category_name: "Молочные продукты",
+        // },
+        // {
+        //   category_id: 2,
+        //   category_name: "Фрукты и овощи",
+        // }
       ],
       shops: [
-        {
-          shop_id: 1,
-          shop_name: 'Перекресток'
-        },
-        {
-          shop_id: 2,
-          shop_name: 'Ашан'
-        }
+      //  {
+      //     shop_id: 1,
+      //     shop_name: 'Перекресток'
+      //   },
+      //   {
+      //     shop_id: 2,
+      //     shop_name: 'Ашан'
+      //   }
       ]
     };
   },
   computed: {
-    filter_products: function () {
-      var search_word = this.search.toLowerCase();
-      return this.products.filter(
+    search_products: function () {
+      if(this.current_id_categories===-1 && this.current_id_shops===-1){
+        var search_word = this.search.toLowerCase();   
+        return this.products.filter(
         (x) =>
-          (x.title.toLowerCase().includes(search_word)));
-    },
+          (x.product_name.toLowerCase().includes(search_word)));
+      }
+      if(this.current_id_categories!=-1){
+        return this.products.filter(
+        (x) =>
+          (x.category_id===this.current_id_categories));
+      }
+      console.log(this.current_id_shops);
+       if(this.current_id_shops!=-1){
+        return this.products.filter(
+        (x) =>
+          (x.shop_id===this.current_id_shops));
+      }
+    }
   },
   created() {
     var vm = this;
@@ -140,6 +144,15 @@ export default {
       vm.shops = res.data.shops;
     });
   },
+  methods:{
+    ChooseCategory(category) {
+      this.current_id_categories=category;
+
+    },
+    ChooseShop(shop){
+      this.current_id_shops=shop;
+    }
+  }
 };
 </script>
 
@@ -163,15 +176,25 @@ export default {
   grid-area: category;
   border-right: 1px solid grey;
 }
-.category__products_item{
+.category__shops_item{
+    padding: 5px;
+  text-decoration: none;
+}
+.category__shops_item:hover{
+   cursor: pointer;
+  color: rgb(0, 208, 42);
+}
+
+.category__products_item {
   padding: 5px;
   text-decoration: none;
 }
-.category__products_item:hover{
+.category__products_item:hover {
   cursor: pointer;
   color: rgb(0, 208, 42);
 }
-.category__shops_item{
+
+.category__shops_item {
   padding: 5px;
 }
 .search {
@@ -202,12 +225,12 @@ select:-webkit-autofill {
   background-image: none !important;
   color: rgb(0, 0, 0) !important;
 }
-.category__checkbox{
+.category__checkbox {
   width: 20px;
   height: 20px;
-   border-color: red;
+  border-color: red;
   background-color: red;
-  background:burlywood;
+  background: burlywood;
 }
 label {
   padding: 0;

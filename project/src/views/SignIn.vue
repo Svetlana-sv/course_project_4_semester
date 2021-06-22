@@ -1,33 +1,104 @@
 <template>
   <div class="signin">
-    <h1>Форма авторизации</h1>
-    <div class="signin__form">
-      <form action="api.php" class="form">
-        <label class="form__label">Логин:</label>
-        <input
-          class="form__input"
-          type="text"
-          id="login"
-          name="login"
-          v-model="login"
-          required
-          autofocus
-          placeholder="Введите логин"
-        />
-        <label class="form__label">Пароль:</label>
-        <input
-          class="form__input"
-          type="password"
-          id="password"
-          name="password"
-          v-model="password"
-          required
-          placeholder="Введите пароль"
-        />
-        <button class="form__btn" type="submit" @click="SignIn">Войти</button>
-        <a href="#">Регистрация...</a>
-      </form>
+    <div v-if="isCustomer">
+      <div class="form__customer">
+        <h1>Личный кабинет</h1>
+
+        <form action="" class="form__customer-data">
+          <legend>Персональные данные</legend>
+          <div class="customer-data__item">
+            <label for="lastname">Фамилия:</label>
+            <input type="text" placeholder="Фамилия" v-model="last_name"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Имя:</label>
+            <input type="text" placeholder="Имя" v-model="first_name"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Отчество: (при наличии)</label>
+            <input type="text" placeholder="Отчество" v-model="middle_name"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Город:</label>
+            <input type="text" placeholder="Город" v-model="city" />
+          </div>
+          <div class="customer-data__item">
+            <label for="">Улица:</label>
+            <input type="text" placeholder="Улица" v-model="street"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Дом:</label>
+            <input type="text" placeholder="Дом" v-model="house"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Квартира:</label>
+            <input type="text" placeholder="Квартира" v-model="flat"/>
+          </div>
+          <div class="customer-data__item">
+            <label for="">Этаж:</label>
+            <input type="text" placeholder="Этаж" v-model="floor"/>
+          </div>
+          <button type="submit" @click="SaveData">Сохранить</button>
+        </form>
+      </div>
     </div>
+    <div v-else id="autorize">
+      <h1>Форма авторизации</h1>
+      <div class="signin__form">
+        <form class="form" v-on:submit.prevent="onSubmit">
+          <label class="form__label">Номер мобильного телефона:</label>
+          <input
+            class="form__input"
+            type="text"
+            v-model="login"
+            required
+            autofocus
+            placeholder="Введите номер"
+          />
+          <label class="form__label">Пароль:</label>
+          <input
+            class="form__input"
+            type="password"
+            v-model="password"
+            required
+            placeholder="Введите пароль"
+          />
+          <button class="form__btn" type="submit" @click="SignIn">Войти</button>
+          <p @click="ShowRegistr">Регистрация...</p>
+        </form>
+
+        
+      </div>
+    </div>
+    <div class="signup_modal" id="modal">
+          <h1>Форма регистрации</h1>
+          <div class="signin__form">
+            <form class="form">
+              <label class="form__label"
+                >Введите номер мобильного телефона:</label
+              >
+              <input
+                class="form__input"
+                type="text"
+                v-model="login1"
+                required
+                autofocus
+                placeholder="Введите номер"
+              />
+              <label class="form__label">Придумайте пароль:</label>
+              <input
+                class="form__input"
+                type="password"
+                v-model="password1"
+                required
+                placeholder="Введите пароль"
+              />
+              <button class="form__btn" type="submit" @click="SignUp">
+                Зарегистрироваться
+              </button>
+            </form>
+          </div>
+        </div>
   </div>
 </template>
 
@@ -38,58 +109,116 @@ export default {
   name: "SignIn",
   data() {
     return {
+      login1: "",
+      password1: "",
       login: "",
       password: "",
+      isCustomer: false,
+      customerData: []
     };
   },
   methods: {
     SignIn() {
-      if (this.password.length > 0) {
-        axios.get("http://localhost/php/signin_customer.php", {
-            login: this.login,
-            password: this.password,
-          })
-          .then((response) => {
-            let is_admin = response.data.user.is_admin;
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-            localStorage.setItem("jwt", response.data.token);
-
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl);
-              } else {
-                if (is_admin == 1) {
-                  this.$router.push("admin");
-                } else {
-                  this.$router.push("dashboard");
-                }
-              }
-            }
-          })
-          .catch(function (error) {
-            console.error(error.response);
-          });
+      if (this.login == "" || this.password == "") {
+        this.showModal(false, "Error!");
+        return;
       }
+      let vm = this;
+      let params = { login: `${this.login}`, password: `${this.password}` };
+      axios
+        .get("http://localhost/php/signin_customer.php", {
+          params,
+        })
+        .then(function (response) {
+          //console.log(response);
+          if (response.data.session) {
+            vm.isCustomer = response.data.session;
+            console.log(response);
+            console.log(response.data);
+            console.log(response.data.data);
+            vm.GetData(response.data.data);
+            vm.$store.commit("changeStatus", vm.isCustomer);
+          }
+        });
     },
+    SignUp: function () {
+      if (this.login1 == "" || this.password1 == "") {
+        this.showModal(false, "Err");
+        return;
+      }
+      let params = { login: `${this.login1}`, password: `${this.password1}` };
+      axios
+        .get("http://localhost/php/signup_customer.php", {
+          params,
+        })
+        .then(function (response) {
+          
+        });
+    },
+    ShowRegistr() {
+      var modal = document.getElementById("#modal");
+      modal.style.display = "block";
+    },
+    SaveData() {
+      //saveData
+    },  
+    GetData(data){
+      this.customerData=data.city;
+      console.log(this.customerData);
+
+    }
   },
+  created(){
+    this.isCustomer=this.$store.getters.isCustomer; 
+  }
 };
 </script>
 
 <style scoped>
+.signup_modal {
+  display: none;
+  margin: auto;
+  padding: 0;
+  width: 100%;
+  top: 110px;
+  margin-bottom: 100px;
+}
 .signin {
   max-width: 100%;
   min-height: 100%;
 }
 .signin__form {
-  width: 20%;
+  max-width: 30%;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
   padding: 0;
   padding: 50px;
   border: black solid 1px;
   border-radius: 20px;
 }
+/**/
+.form__customer-data {
+  text-align: center;
+  margin-bottom: 100px;
+}
+.form__customer{
+  margin-bottom: 100px;
+}
+.customer-data__item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px;
+}
+.customer-data__item input {
+  width: 300px;
+  height: 30px;
+  margin: auto;
+}
+.customer-data__item label {
+  margin-bottom: 10px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -109,6 +238,35 @@ export default {
   padding: 0;
   margin-bottom: 10px;
   font-size: var(--font--s--btn);
+}
+
+button {
+  height: 35px;
+  width: 160px;
+  border-radius: 20px;
+  margin-bottom: 80px;
+}
+
+@media screen and (max-width: 600px) {
+  .signin__form {
+    margin: auto;
+    padding: 0;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .form__input {
+    max-width: 90%;
+    margin: 10px;
+  }
+  .form__label {
+    padding: 10px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .signin__form {
+    max-width: 678px;
+  }
 }
 </style>
 

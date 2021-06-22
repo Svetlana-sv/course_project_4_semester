@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
 .v-footer {
-  
+  margin-top: 100px;
   position: -webkit-fixed;
   position: fixed;
   left: 0;

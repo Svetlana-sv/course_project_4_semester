@@ -1,7 +1,6 @@
 <template>
 <body>
-   <v-header :template="template"/>
-
+   <v-header/>
   <router-view/>
   <v-footer/>
   </body>

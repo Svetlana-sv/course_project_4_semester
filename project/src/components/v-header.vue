@@ -8,6 +8,7 @@
           <li><router-link to="/catalog">Каталог</router-link></li>
           <li><router-link to="/signin">Вход</router-link></li>
           <li><router-link to="/cart">Корзина</router-link></li>
+          <li><router-link to="/admin">Админ</router-link></li>
         </ul>
       </div>
     </div>

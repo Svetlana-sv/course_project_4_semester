@@ -6,10 +6,13 @@
 
     <div class="item__discription">
       <div class="v-catalog-item__name">{{ name }}</div>
-      <div class="v-catalog-item__name-hint">{{ name }}</div>
+      <div class="v-catalog-item__name-hint">
+        <p>Наименование: {{ name }}</p> 
+        <p>Описание: {{ description }}</p> 
+        </div>
       <p class="v-catalog-item__price">{{ price }}</p>
     </div>
-    <button class="v-catalog-item__button">Добавить</button>
+    <button class="v-catalog-item__button" @click="AddToCart">Добавить</button>
   </div>
 </template>
 
@@ -21,9 +24,16 @@ export default {
   },
   props: {
     name: String,
+    description: String,
     price: Float32Array,
     product_image: String,
+    product_info: Array
   },
+  methods:{
+    AddToCart(){
+      this.$store.commit("addItem", this.product_info)
+    }
+  }
 };
 </script>
 
