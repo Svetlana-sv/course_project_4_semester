@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {//переменн
     cart_cards: [],
-    isCustomer: false
+    isCustomer: false,
+    customerData: []
   },
   mutations: {//методы изменяющие переменные
     addItem(state, item){//добавление карт в массив
@@ -15,6 +16,9 @@ export default createStore({
     },
     changeStatus(state,status){
       state.isCustomer=status;
+    },
+    addCustomerData(state,data){
+      state.customerData=data;
     }
   },
   actions: {//методы которые вызываюе mutations
@@ -26,6 +30,7 @@ export default createStore({
   },
   getters: {//возращает переменные
     cart_cards: state => {return state.cart_cards;},
-    isCustomer: state => {return state.isCustomer;}
+    isCustomer: state => {return state.isCustomer;},
+    customerData: state => {return state.customerData;}
   }
 })

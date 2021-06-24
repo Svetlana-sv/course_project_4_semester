@@ -4,7 +4,7 @@
       <div class="form__customer">
         <h1>Личный кабинет</h1>
 
-        <form action="" class="form__customer-data">
+        <form action="" class="form__customer-data" v-on:submit.prevent="onSubmit">
           <legend>Персональные данные</legend>
           <div class="customer-data__item">
             <label for="lastname">Фамилия:</label>
@@ -15,7 +15,7 @@
             <input type="text" placeholder="Имя" v-model="first_name"/>
           </div>
           <div class="customer-data__item">
-            <label for="">Отчество: (при наличии)</label>
+            <label for="">Отчество:</label>
             <input type="text" placeholder="Отчество" v-model="middle_name"/>
           </div>
           <div class="customer-data__item">
@@ -28,15 +28,15 @@
           </div>
           <div class="customer-data__item">
             <label for="">Дом:</label>
-            <input type="text" placeholder="Дом" v-model="house"/>
+            <input type="number" placeholder="Дом" v-model="house"/>
           </div>
           <div class="customer-data__item">
             <label for="">Квартира:</label>
-            <input type="text" placeholder="Квартира" v-model="flat"/>
+            <input type="number" placeholder="Квартира" v-model="flat"/>
           </div>
           <div class="customer-data__item">
             <label for="">Этаж:</label>
-            <input type="text" placeholder="Этаж" v-model="floor"/>
+            <input type="number" placeholder="Этаж" v-model="floor"/>
           </div>
           <button type="submit" @click="SaveData">Сохранить</button>
         </form>
@@ -73,7 +73,7 @@
     <div class="signup_modal" id="modal">
           <h1>Форма регистрации</h1>
           <div class="signin__form">
-            <form class="form">
+            <form class="form" v-on:submit.prevent="onSubmit">
               <label class="form__label"
                 >Введите номер мобильного телефона:</label
               >
@@ -114,7 +114,16 @@ export default {
       login: "",
       password: "",
       isCustomer: false,
-      customerData: []
+      customerData: [],
+      customer_id: -1,
+      last_name: '',
+      first_name: '',
+      middle_name: '',
+      city: '',
+      street: '',
+      house: -1,
+      flat: -1,
+      floor: -1
     };
   },
   methods: {
@@ -127,16 +136,14 @@ export default {
       let params = { login: `${this.login}`, password: `${this.password}` };
       axios
         .get("http://localhost/php/signin_customer.php", {
-          params,
+          params
         })
         .then(function (response) {
-          //console.log(response);
           if (response.data.session) {
             vm.isCustomer = response.data.session;
-            console.log(response);
-            console.log(response.data);
-            console.log(response.data.data);
             vm.GetData(response.data.data);
+            vm.customerData = response.data.data;
+            vm.$store.commit("addCustomerData", response.data.data);
             vm.$store.commit("changeStatus", vm.isCustomer);
           }
         });
@@ -149,34 +156,57 @@ export default {
       let params = { login: `${this.login1}`, password: `${this.password1}` };
       axios
         .get("http://localhost/php/signup_customer.php", {
-          params,
+          params
         })
         .then(function (response) {
           
         });
     },
     ShowRegistr() {
-      var modal = document.getElementById("#modal");
+      var modal = document.getElementById("modal");
       modal.style.display = "block";
     },
     SaveData() {
-      //saveData
+      var params = { customer_id: `${this.customer_id}`, last_name: `${this.last_name}`, first_name: `${this.first_name}`, middle_name: `${this.middle_name}`,
+      city: `${this.city}`,street: `${this.street}`,flat: `${this.flat}`,floor: `${this.floor}`,house: `${this.house}`};
+      this.$store.commit("addCustomerData", params);
+      axios
+        .get("http://localhost/php/save_data_customer.php", {
+          params
+        })
+        .then(function (response) {
+          console.log(response);
+        });
     },  
-    GetData(data){
-      this.customerData=data.city;
-      console.log(this.customerData);
+    GetData(data){    
+      this.customer_id = data.customer_id;
+      this.last_name = data.last_name;
+      this.first_name = data.first_name;
+      this.middle_name = data.middle_name;
+      this.city = data.city;
+      this.street = data.street;
+      this.flat = data.flat;
+      this.floor = data.floor;
+      this.house = data.house; 
 
     }
   },
   created(){
+    console.log('created');
     this.isCustomer=this.$store.getters.isCustomer; 
+    if(this.isCustomer){
+      this.GetData(this.$store.getters.customerData);
+    }
   }
 };
 </script>
 
 <style scoped>
+#modal{
+display: none;
+}
 .signup_modal {
-  display: none;
+  
   margin: auto;
   padding: 0;
   width: 100%;
@@ -251,7 +281,7 @@ button {
   .signin__form {
     margin: auto;
     padding: 0;
-    width: 100%;
+    min-width: 100%;
     margin-top: 20px;
   }
   .form__input {

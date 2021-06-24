@@ -1,77 +1,99 @@
 <template>
-    <div class="v-cart-item">
-<img class="v-cart-item__image" :src="product_image" alt="" />
+  <div class="v-cart-item">
+    <img class="v-cart-item__image" :src="product_image" alt="" />
     <div class="item__discription">
-    <p class="v-cart-item__name">{{name}}</p>
-    <p class="v-cart-item__price">Цена: {{price}}</p>
-    <div class="v-cart-item__count">
-    <p class="v-cart-item__price">Кол-во:</p>
-    
-     <button class="v-cart-item__button-count"
-      type="button"
-      @click="decreaseCount"
-    >
-      -
-    </button>
-      <input class="v-cart-item__input"
-        type="number"
-        :value="count"
-        :min="minCount"
-      >
-    <button class="v-cart-item__button-count"
-      type="button"
-      @click="increaseCount"
-    >
-      +
-    </button>
-    </div>
-   
+      <p class="v-cart-item__name">{{ name }}</p>
+      <p class="v-cart-item__price">Цена: {{ price }}</p>
+      <div class="v-cart-item__count">
+        <p class="v-cart-item__price">Кол-во:</p>
 
+        <button
+          class="v-cart-item__button-count"
+          type="button"
+          @click="decreaseCount"
+        >
+          -
+        </button>
+        <input
+          class="v-cart-item__input"
+          type="number"
+          v-model="count"
+          :min="minCount"
+          @change="changeCount"
+        />
+        <button
+          class="v-cart-item__button-count"
+          type="button"
+          @click="increaseCount"
+        >
+          +
+        </button>
+        <p class="v-cart-item__price">{{ quantity_name }}</p>
+      </div>
     </div>
     <button class="v-cart-item__button" @click="Delete">Удалить</button>
-    </div>
-    
+  </div>
 </template>
 
 <script>
 export default {
-   name: 'v-cart-item',
-   
-   data(){ //это персональные данные
-       return{
-      count: 1,
-      minCount: 0
+  name: "v-cart-item",
 
-       }
-       
-   },
-   props: {
-    name: String,
-    price: Float32Array,
-    product_image: String,
+  data() {
+    //это персональные данные
+    return {
+      count: 1,
+      minCount: 0,
+      products: [],
+    };
   },
-  methods:{
+  props: {
+    product_id: Number,
+    name: String,
+    price: Number,
+    product_image: String,
+    quantity_name: String,
+  },
+  methods: {
     increaseCount() {
-        this.count++;
+      this.count++;
+      //this.changeCount();
     },
     decreaseCount() {
       if (this.count > this.minCount) {
         this.count--;
       }
+     // this.changeCount();
     },
-    Delete(){
-
+    Delete() {
+      this.$emit('deleteCard',this.product_id)
+    },
+    changeCount(){
+      console.log('changeCount',this.count);
+      this.products = this.$store.getters.cart_cards;
+      //this.$emit('inc',this.product_id,this.count)
     }
-  }
-
+  },
+  watch: {
+    count(count) {
+        this.$emit('inc',this.product_id,this.count)
+        // or generate/simulate a native events (not sure how, but its outside Vue's realm I think
+    }
 }
+};
 </script>
 
 <style scoped>
+.v-cart{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}
 .v-cart-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 840px;
   min-height: 100px;
   background: #ffffff;
@@ -80,14 +102,14 @@ export default {
   padding: 10px;
   margin-bottom: 10px;
 }
-.item__discription{
-    text-align: left;
-    padding: 20px;
-    display: grid;
-    width: 90%;
-    grid-template-columns: 2fr 1fr 1.5fr;
+.item__discription {
+  text-align: left;
+  padding: 20px;
+  display: grid;
+  width: 90%;
+  grid-template-columns: 2fr 1fr 1.5fr;
 }
-.v-cart-item__name{
+.v-cart-item__name {
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
@@ -98,11 +120,11 @@ export default {
   width: 70px;
   height: 70px;
 }
-.v-cart-item__price{
+.v-cart-item__price {
   padding-left: 10px;
   min-width: 60px;
 }
-.v-cart-item__button{
+.v-cart-item__button {
   padding: 0;
   margin: auto;
 
@@ -113,45 +135,52 @@ export default {
   cursor: pointer;
   font-size: var(--font--s--btn);
 }
-.v-cart-item__count{
+.v-cart-item__count {
   display: flex;
   flex-direction: row;
 }
-.v-cart-item__button-count{
+.v-cart-item__button-count {
   width: 30px;
   border-radius: 20px;
 }
-.v-cart-item__input{
+.v-cart-item__input {
   width: 40px;
 }
 
 @media screen and (max-width: 900px) {
   .v-cart-item {
-  width: 80%;
+    width: 96%;
+    margin: auto;
+  }
+  .v-cart-item__count{
+    text-align: center;
+    justify-content: center;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 700px) {
   .v-cart-item {
-  flex-direction: column;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
   }
-  .item__discription{
+  .item__discription {
     text-align: center;
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  .v-cart-item__name{
-  max-width: 100%;
-    white-space:normal;
+  .v-cart-item__name {
+    max-width: 100%;
+    white-space: normal;
     word-break: break-all;
-  overflow:visible;
-  text-overflow:clip;
+    overflow: visible;
+    text-overflow: clip;
   }
-  .v-cart-item__image{
+  .v-cart-item__image {
     margin: 0;
   }
-  .v-cart-item__button{
-  padding: 0;
-  margin: auto;
+  .v-cart-item__button {
+    padding: 0;
+    margin: auto;
   }
 }
 </style>

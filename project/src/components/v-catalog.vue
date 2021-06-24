@@ -94,24 +94,24 @@ export default {
         }
       ],
       category_products: [
-        // {
-        //   category_id: 1,
-        //   category_name: "Молочные продукты",
-        // },
-        // {
-        //   category_id: 2,
-        //   category_name: "Фрукты и овощи",
-        // }
+        {
+          category_id: 1,
+          category_name: "Молочные продукты",
+        },
+        {
+          category_id: 2,
+          category_name: "Фрукты и овощи",
+        }
       ],
       shops: [
-      //  {
-      //     shop_id: 1,
-      //     shop_name: 'Перекресток'
-      //   },
-      //   {
-      //     shop_id: 2,
-      //     shop_name: 'Ашан'
-      //   }
+       {
+          shop_id: 1,
+          shop_name: 'Перекресток'
+        },
+        {
+          shop_id: 2,
+          shop_name: 'Ашан'
+        }
       ]
     };
   },
@@ -234,5 +234,21 @@ select:-webkit-autofill {
 }
 label {
   padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .v-catalog {
+  margin-top: 30px;
+  margin-bottom: 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows:1fr;
+  gap: 30px 15px;
+  grid-template-areas:
+    "search"
+    "category"
+    "items"
+    ".";
+}
 }
 </style>
