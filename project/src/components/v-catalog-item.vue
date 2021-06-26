@@ -10,7 +10,7 @@
         <p>Наименование: {{ name }}</p> 
         <p>Описание: {{ description }}</p> 
         </div>
-      <p class="v-catalog-item__price">{{ price }}</p>
+      <p class="v-catalog-item__price">Цена: {{ price }} Ꝑ {{ quantity_name }}</p>
     </div>
     <button class="v-catalog-item__button" @click="AddToCart">Добавить</button>
   </div>
@@ -25,7 +25,8 @@ export default {
   props: {
     name: String,
     description: String,
-    price: Float32Array,
+    price: Number,
+    quantity_name: String,
     product_image: String,
     product_info: Array
   },
@@ -104,5 +105,10 @@ p {
   border-radius: 20px;
   cursor: pointer;
   font-size: var(--font--s--btn);
+}
+
+@media screen and (max-width: 300px) {
+  .v-catalog-item {
+  width: 160px;}
 }
 </style>

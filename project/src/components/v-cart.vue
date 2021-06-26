@@ -77,7 +77,13 @@
         </div>
         <div class="customer-data__item">
           <label for="">Дата доставки:</label>
-          <input type="datetime-local" v-model="selectedDate" required>
+          <input
+            type="date"
+            id="myDate"
+            :value="SetDate()"
+             :min="SetDate()"
+            required
+          />
         </div>
         <button type="submit" @click="MakeOrder">Заказать</button>
       </form>
@@ -98,8 +104,10 @@
           :price="product.price"
           :product_image="product.product_image"
         />
-        <button @click="CreateOrder" class="create_card__button">Оформить заказ</button>
-        <p class="create_card__text">Итого:{{summ_price}}</p>
+        <button @click="CreateOrder" class="create_card__button">
+          Оформить заказ
+        </button>
+        <p class="create_card__text">Итого: {{ summ_price.toFixed(2) }} Ꝑ</p>
       </div>
     </div>
   </div>
@@ -119,7 +127,6 @@ export default {
   data() {
     //это персональные данные
     return {
-      selectedDate: "",
       selectedPay: "",
       title: "card",
       isClicked: false,
@@ -134,21 +141,21 @@ export default {
       flat: -1,
       floor: -1,
       products: [
-        // {
-        //   id: 1,
-        //   title:
-        //     "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
-        //   price: 79.0,
-        //   product_image:
-        //     "https://www.pngkit.com/png/full/67-671010_milk-png-free-download-milk-in-a-pint.png",
-        // },
-        // {
-        //   id: 2,
-        //   title: "as2",
-        //   price: 79.0,
-        //   product_image:
-        //     "https://static.tildacdn.com/tild3333-6362-4031-a631-623532386533/banan_1.png",
-        // },
+        {
+          id: 1,
+          title:
+            "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
+          price: 79.0,
+          product_image:
+            "https://www.pngkit.com/png/full/67-671010_milk-png-free-download-milk-in-a-pint.png",
+        },
+        {
+          id: 2,
+          title: "as2",
+          price: 79.0,
+          product_image:
+            "https://static.tildacdn.com/tild3333-6362-4031-a631-623532386533/banan_1.png",
+        },
       ],
     };
   },
@@ -165,67 +172,94 @@ export default {
     this.flat = this.customerData.flat;
     this.floor = this.customerData.floor;
     this.house = this.customerData.house;
+
+
   },
   methods: {
     CreateOrder() {
+      
+      
       //начать оформление заказа
       if (this.$store.getters.isCustomer === true) {
-        console.log("Вы авторизированы!");
+      
         this.isClicked = true;
-        console.log(this.isClicked);
+        this.SetDate();
+     
       } else {
-        console.log("Вы не авторизированы!");
-        alert("Для оформления заказа авторизуйтесь!");
+         alert("Для офрмления заказа необходимо авторизироваться!");
       }
     },
-    inc(id,count){
-      console.log(id,count);
-      this.products.forEach(element => {
-        if (element.product_id === id){
-          element.count = count
+    SetDate(){
+    
+    var date = new Date();
+    this.selectedDate = date;
+      // <!-- v-model="selectedDate" -->
+    return date;
+    },
+    inc(id, count) {
+      console.log(id, count);
+      this.products.forEach((element) => {
+        if (element.product_id === id) {
+          element.count = count;
         }
-          console.log(element);
+        console.log(element);
       });
     },
-    deleteCard(id){
-    console.log(id);
-    var index = 0;
-      this.products.forEach(element => {
-
-        if (element.product_id === id){
-          this.products.splice(index,1);
-          
+    deleteCard(id) {
+      console.log(id);
+      var index = 0;
+      this.products.forEach((element) => {
+        if (element.product_id === id) {
+          this.products.splice(index, 1);
         }
         index++;
-       
-      //     console.log(element);
-       });
+
+        //     console.log(element);
+      });
     },
     MakeOrder() {
-      //заказать
-      var params = { customer_id: `${this.customer_id}`, last_name: `${this.last_name}`, first_name: `${this.first_name}`, middle_name: `${this.middle_name}`,
-      city: `${this.city}`,street: `${this.street}`,flat: `${this.flat}`,floor: `${this.floor}`,house: `${this.house}`,
-      selectedDate: `${this.selectedDate}`,selectedPay: `${this.selectedPay}`,summ_price: `${this.summ_price}`,products: this.products,};
+      var selectedDate = document.getElementById('myDate').value;
+      if(selectedDate===''){
+         alert("Введите дату доставки!");
+      }else{
+//заказать
+      var params = {
+        customer_id: `${this.customer_id}`,
+        last_name: `${this.last_name}`,
+        first_name: `${this.first_name}`,
+        middle_name: `${this.middle_name}`,
+        city: `${this.city}`,
+        street: `${this.street}`,
+        flat: `${this.flat}`,
+        floor: `${this.floor}`,
+        house: `${this.house}`,
+        selectedDate: `${selectedDate}`,
+        selectedPay: `${this.selectedPay}`,
+        summ_price: `${this.summ_price}`,
+        products: this.products,
+      };
       this.$store.commit("addCustomerData", params);
       axios
         .get("http://localhost/php/add_order.php", {
-          params
+          params,
         })
         .then(function (response) {
-          alert('Заказ принят.');
-          console.log(response);
+          alert("Заказ принят!");
+          //перенаправить в каталог
         });
-    },
+      }
+      
+    }
   },
-  computed:{
-    summ_price: function(){
+  computed: {
+    summ_price: function () {
       var price = 0;
-      this.products.forEach(element => {
+      this.products.forEach((element) => {
         price += element.count * element.price;
       });
-      return price
-    }
-  }
+      return price;
+    },
+  },
 };
 </script>
 
@@ -259,6 +293,21 @@ button {
 .customer-data__item input {
   width: 300px;
   height: 30px;
+  background: #E9EFF6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  padding: 0 20px;
+  margin: auto;
+}
+.customer-data__item select {
+  width: 300px;
+  height: 30px;
+  background: #E9EFF6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  padding: 0 20px;
   margin: auto;
 }
 .customer-data__item label {
@@ -271,11 +320,20 @@ legend {
   margin-bottom: 10px;
   font-size: 18px;
 }
-.create_card__button{
+.create_card__button {
   margin-top: 10px;
 }
-.create_card__text{
+.create_card__text {
   margin-bottom: 100px;
   margin-top: 10px;
+}
+
+@media screen and (max-width: 400px){
+  .customer-data__item input {
+  max-width: 150px;
+}
+.customer-data__item select {
+  max-width: 150px;
+}
 }
 </style>

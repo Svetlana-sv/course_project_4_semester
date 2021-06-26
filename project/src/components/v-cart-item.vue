@@ -3,7 +3,7 @@
     <img class="v-cart-item__image" :src="product_image" alt="" />
     <div class="item__discription">
       <p class="v-cart-item__name">{{ name }}</p>
-      <p class="v-cart-item__price">Цена: {{ price }}</p>
+      <p class="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
       <div class="v-cart-item__count">
         <p class="v-cart-item__price">Кол-во:</p>
 

@@ -1,5 +1,6 @@
 <template>
   <div class="signin">
+ 
     <div v-if="isCustomer">
       <div class="form__customer">
         <h1>Личный кабинет</h1>
@@ -128,8 +129,8 @@ export default {
   },
   methods: {
     SignIn() {
-      if (this.login == "" || this.password == "") {
-        this.showModal(false, "Error!");
+      if (this.login == "" || this.password == "" || this.password.length!=11) {
+       alert("Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX");
         return;
       }
       let vm = this;
@@ -149,8 +150,8 @@ export default {
         });
     },
     SignUp: function () {
-      if (this.login1 == "" || this.password1 == "") {
-        this.showModal(false, "Err");
+      if (this.login1 == "" || this.password1 == "" || this.password1.length!=11) {
+        alert("Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX");
         return;
       }
       let params = { login: `${this.login1}`, password: `${this.password1}` };
@@ -159,7 +160,7 @@ export default {
           params
         })
         .then(function (response) {
-          
+           alert("Вы успешно зарегистрированы!");
         });
     },
     ShowRegistr() {
@@ -175,7 +176,7 @@ export default {
           params
         })
         .then(function (response) {
-          console.log(response);
+          alert("Данные успешно изменены!");
         });
     },  
     GetData(data){    
@@ -216,6 +217,7 @@ display: none;
 .signin {
   max-width: 100%;
   min-height: 100%;
+  text-align: center;
 }
 .signin__form {
   max-width: 30%;
@@ -223,7 +225,7 @@ display: none;
   margin-top: 50px;
   padding: 0;
   padding: 50px;
-  border: black solid 1px;
+  border: rgb(10, 191, 0) solid 1px;
   border-radius: 20px;
 }
 /**/
@@ -241,6 +243,11 @@ display: none;
   margin: 10px;
 }
 .customer-data__item input {
+  background: #E9EFF6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  padding: 0 20px;
   width: 300px;
   height: 30px;
   margin: auto;
@@ -260,12 +267,18 @@ display: none;
 .form__input {
   height: 35px;
   margin-bottom: 20px;
+  background: #E9EFF6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  padding: 0 20px;
 }
 .form__btn {
   height: 35px;
   width: 160px;
   margin: auto;
   padding: 0;
+  background: rgb(94, 225, 87);
   margin-bottom: 10px;
   font-size: var(--font--s--btn);
 }
@@ -285,7 +298,8 @@ button {
     margin-top: 20px;
   }
   .form__input {
-    max-width: 90%;
+    max-width: 200px;
+    margin: auto;
     margin: 10px;
   }
   .form__label {
