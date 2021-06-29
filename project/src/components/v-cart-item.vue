@@ -1,9 +1,9 @@
 <template>
-  <div class="v-cart-item">
+  <div class="v-cart-item" id="v-cart-item">
     <img class="v-cart-item__image" :src="product_image" alt="" />
     <div class="item__discription">
-      <p class="v-cart-item__name">{{ name }}</p>
-      <p class="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
+      <p class="v-cart-item__name" id="v-cart-item__name">{{ name }}</p>
+      <p class="v-cart-item__price" id="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
       <div class="v-cart-item__count">
         <p class="v-cart-item__price">Кол-во:</p>
 
@@ -149,7 +149,7 @@ export default {
 
 @media screen and (max-width: 900px) {
   .v-cart-item {
-    width: 96%;
+    width: 80%;
     margin: auto;
   }
   .v-cart-item__count{
@@ -158,10 +158,13 @@ export default {
   }
 }
 @media screen and (max-width: 700px) {
+  
   .v-cart-item {
     flex-direction: column;
     text-align: center;
     margin: auto;
+    margin-bottom: 10px;
+   
   }
   .item__discription {
     text-align: center;
@@ -169,12 +172,16 @@ export default {
     gap: 20px;
   }
   .v-cart-item__name {
-    max-width: 100%;
+    max-width: 90%;
     white-space: normal;
     word-break: break-all;
     overflow: visible;
     text-overflow: clip;
   }
+  .v-cart-item__price {
+  padding: 0;
+  width: 80%;
+}
   .v-cart-item__image {
     margin: 0;
   }
@@ -183,4 +190,5 @@ export default {
     margin: auto;
   }
 }
+
 </style>

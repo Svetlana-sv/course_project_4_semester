@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style>
-
+#v-footer {
+    display: static;
+  }
 </style>

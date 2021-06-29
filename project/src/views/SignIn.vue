@@ -1,23 +1,26 @@
 <template>
   <div class="signin">
- 
     <div v-if="isCustomer">
       <div class="form__customer">
         <h1>Личный кабинет</h1>
 
-        <form action="" class="form__customer-data" v-on:submit.prevent="onSubmit">
+        <form
+          action=""
+          class="form__customer-data"
+          v-on:submit.prevent="onSubmit"
+        >
           <legend>Персональные данные</legend>
           <div class="customer-data__item">
             <label for="lastname">Фамилия:</label>
-            <input type="text" placeholder="Фамилия" v-model="last_name"/>
+            <input type="text" placeholder="Фамилия" v-model="last_name" />
           </div>
           <div class="customer-data__item">
             <label for="">Имя:</label>
-            <input type="text" placeholder="Имя" v-model="first_name"/>
+            <input type="text" placeholder="Имя" v-model="first_name" />
           </div>
           <div class="customer-data__item">
             <label for="">Отчество:</label>
-            <input type="text" placeholder="Отчество" v-model="middle_name"/>
+            <input type="text" placeholder="Отчество" v-model="middle_name" />
           </div>
           <div class="customer-data__item">
             <label for="">Город:</label>
@@ -25,22 +28,39 @@
           </div>
           <div class="customer-data__item">
             <label for="">Улица:</label>
-            <input type="text" placeholder="Улица" v-model="street"/>
+            <input type="text" placeholder="Улица" v-model="street" />
           </div>
           <div class="customer-data__item">
             <label for="">Дом:</label>
-            <input type="number" placeholder="Дом" v-model="house"/>
+            <input type="number" placeholder="Дом" v-model="house" />
           </div>
           <div class="customer-data__item">
             <label for="">Квартира:</label>
-            <input type="number" placeholder="Квартира" v-model="flat"/>
+            <input type="number" placeholder="Квартира" v-model="flat" />
           </div>
           <div class="customer-data__item">
             <label for="">Этаж:</label>
-            <input type="number" placeholder="Этаж" v-model="floor"/>
+            <input type="number" placeholder="Этаж" v-model="floor" />
           </div>
           <button type="submit" @click="SaveData">Сохранить</button>
         </form>
+      </div>
+      <p>Мои заказы</p>
+      <div class="table-wrap">
+        <table class="table-2">
+          <tr>
+            <td>Дата заказа</td>
+            <td>Метод оплаты</td>
+            <td>Дата доставки</td>
+            <td>Сумма заказа</td>
+          </tr>
+          <tr v-for="(order, index) in orders" :key="index">
+            <td>{{ order.order_data }}</td>
+            <td>{{ order.payment_method }}</td>
+            <td>{{ order.delivery_data }}</td>
+            <td>{{ order.order_price }}</td>
+          </tr>
+        </table>
       </div>
     </div>
     <div v-else id="autorize">
@@ -65,41 +85,38 @@
             placeholder="Введите пароль"
           />
           <button class="form__btn" type="submit" @click="SignIn">Войти</button>
-          <p @click="ShowRegistr">Регистрация...</p>
         </form>
-
-        
+      </div>
+      <div id="registration">
+        <h1>Форма регистрации</h1>
+        <div class="signin__form">
+          <form class="form" v-on:submit.prevent="onSubmit">
+            <label class="form__label"
+              >Введите номер мобильного телефона:</label
+            >
+            <input
+              class="form__input"
+              type="text"
+              v-model="login1"
+              required
+              autofocus
+              placeholder="Введите номер"
+            />
+            <label class="form__label">Придумайте пароль:</label>
+            <input
+              class="form__input"
+              type="password"
+              v-model="password1"
+              required
+              placeholder="Введите пароль"
+            />
+            <button class="form__btn" type="submit" @click="SignUp">
+              Зарегистрироваться
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="signup_modal" id="modal">
-          <h1>Форма регистрации</h1>
-          <div class="signin__form">
-            <form class="form" v-on:submit.prevent="onSubmit">
-              <label class="form__label"
-                >Введите номер мобильного телефона:</label
-              >
-              <input
-                class="form__input"
-                type="text"
-                v-model="login1"
-                required
-                autofocus
-                placeholder="Введите номер"
-              />
-              <label class="form__label">Придумайте пароль:</label>
-              <input
-                class="form__input"
-                type="password"
-                v-model="password1"
-                required
-                placeholder="Введите пароль"
-              />
-              <button class="form__btn" type="submit" @click="SignUp">
-                Зарегистрироваться
-              </button>
-            </form>
-          </div>
-        </div>
   </div>
 </template>
 
@@ -116,70 +133,104 @@ export default {
       password: "",
       isCustomer: false,
       customerData: [],
+      orders: [],
       customer_id: -1,
-      last_name: '',
-      first_name: '',
-      middle_name: '',
-      city: '',
-      street: '',
+      last_name: "",
+      first_name: "",
+      middle_name: "",
+      city: "",
+      street: "",
       house: -1,
       flat: -1,
-      floor: -1
+      floor: -1,
     };
   },
   methods: {
     SignIn() {
-      if (this.login == "" || this.password == "" || this.password.length!=11) {
-       alert("Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX");
-        return;
+      if (
+        this.login === "" ||
+        this.password === "" ||
+        this.login.length != 11
+      ) {
+        alert(
+          "Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX"
+        );
+      } else {
+        let vm = this;
+        let params = { login: `${this.login}`, password: `${this.password}` };
+        axios
+          .get("http://localhost/php/signin_customer.php", {
+            params,
+          })
+          .then(function (response) {
+            if (response.data.session) {
+              vm.isCustomer = response.data.session;
+              console.log(response.data.session);
+              if (response.data.session) {
+                vm.GetData(response.data.data);
+                vm.GetOrder();
+                vm.customerData = response.data.data;
+                vm.$store.commit("addCustomerData", response.data.data);
+                vm.$store.commit("changeStatus", vm.isCustomer);
+                var r = document.getElementById("registration");
+                r.style.display = "none";
+              } else {
+                alert("Введите корректные данные!");
+              }
+            }
+          });
       }
-      let vm = this;
-      let params = { login: `${this.login}`, password: `${this.password}` };
-      axios
-        .get("http://localhost/php/signin_customer.php", {
-          params
-        })
-        .then(function (response) {
-          if (response.data.session) {
-            vm.isCustomer = response.data.session;
-            vm.GetData(response.data.data);
-            vm.customerData = response.data.data;
-            vm.$store.commit("addCustomerData", response.data.data);
-            vm.$store.commit("changeStatus", vm.isCustomer);
-          }
-        });
     },
     SignUp: function () {
-      if (this.login1 == "" || this.password1 == "" || this.password1.length!=11) {
-        alert("Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX");
+      if (
+        this.login1 === "" ||
+        this.password1 === "" ||
+        this.login1.length != 11
+      ) {
+        alert(
+          "Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX"
+        );
         return;
       }
       let params = { login: `${this.login1}`, password: `${this.password1}` };
       axios
         .get("http://localhost/php/signup_customer.php", {
-          params
+          params,
         })
         .then(function (response) {
-           alert("Вы успешно зарегистрированы!");
+          console.log(response.data.signup);
+          if (response.data.signup) {
+            alert("Вы успешно зарегистрированы!");
+            var r = document.getElementById("registration");
+            r.style.display = "none";
+          } else {
+            alert("Номер телефона уже зарегистрирован!");
+          }
         });
     },
-    ShowRegistr() {
-      var modal = document.getElementById("modal");
-      modal.style.display = "block";
-    },
     SaveData() {
-      var params = { customer_id: `${this.customer_id}`, last_name: `${this.last_name}`, first_name: `${this.first_name}`, middle_name: `${this.middle_name}`,
-      city: `${this.city}`,street: `${this.street}`,flat: `${this.flat}`,floor: `${this.floor}`,house: `${this.house}`};
+      var params = {
+        customer_id: `${this.customer_id}`,
+        last_name: `${this.last_name}`,
+        first_name: `${this.first_name}`,
+        middle_name: `${this.middle_name}`,
+        city: `${this.city}`,
+        street: `${this.street}`,
+        flat: `${this.flat}`,
+        floor: `${this.floor}`,
+        house: `${this.house}`,
+      };
       this.$store.commit("addCustomerData", params);
       axios
         .get("http://localhost/php/save_data_customer.php", {
-          params
+          params,
         })
         .then(function (response) {
           alert("Данные успешно изменены!");
+          console.log(response);
         });
-    },  
-    GetData(data){    
+    },
+    GetData(data) {
       this.customer_id = data.customer_id;
       this.last_name = data.last_name;
       this.first_name = data.first_name;
@@ -188,31 +239,35 @@ export default {
       this.street = data.street;
       this.flat = data.flat;
       this.floor = data.floor;
-      this.house = data.house; 
-
+      this.house = data.house;
+    },
+    GetOrder() {
+      let vm = this;
+      var params = { customer_id: `${this.customer_id}` };
+      axios
+        .get("http://localhost/php/get_order.php", {
+          params,
+        })
+        .then(function (response) {
+          console.log(response);
+          vm.orders = response.data.orders;
+        });
+    },
+  },
+  created() {
+    console.log("created");
+    this.isCustomer = this.$store.getters.isCustomer;
+    if (this.isCustomer) {
+      this.GetData(this.$store.getters.customerData);
+      this.GetOrder();
     }
   },
-  created(){
-    console.log('created');
-    this.isCustomer=this.$store.getters.isCustomer; 
-    if(this.isCustomer){
-      this.GetData(this.$store.getters.customerData);
-    }
-  }
 };
 </script>
 
 <style scoped>
-#modal{
-display: none;
-}
-.signup_modal {
-  
-  margin: auto;
-  padding: 0;
-  width: 100%;
-  top: 110px;
-  margin-bottom: 100px;
+#v-footer {
+  display: static;
 }
 .signin {
   max-width: 100%;
@@ -231,9 +286,11 @@ display: none;
 /**/
 .form__customer-data {
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 15px;
 }
-.form__customer{
+.form__customer {
+  margin: auto;
+  text-align: center;
   margin-bottom: 100px;
 }
 .customer-data__item {
@@ -243,12 +300,12 @@ display: none;
   margin: 10px;
 }
 .customer-data__item input {
-  background: #E9EFF6;
+  background: #e9eff6;
   line-height: 40px;
   border-width: 0;
   border-radius: 20px;
   padding: 0 20px;
-  width: 300px;
+  width: 70%;
   height: 30px;
   margin: auto;
 }
@@ -267,7 +324,7 @@ display: none;
 .form__input {
   height: 35px;
   margin-bottom: 20px;
-  background: #E9EFF6;
+  background: #e9eff6;
   line-height: 40px;
   border-width: 0;
   border-radius: 20px;
@@ -298,12 +355,49 @@ button {
     margin-top: 20px;
   }
   .form__input {
-    max-width: 200px;
+    max-width: 100%;
     margin: auto;
     margin: 10px;
   }
   .form__label {
     padding: 10px;
+  }
+  .form {
+    padding: 10px;
+  }
+}
+
+/* стили для таблицы */
+table.table-2 {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+table.table-2 tr {
+  background-color: #f8f8f8;
+}
+table.table-2 th,
+table.table-2 td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+table.table-2 th {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  table.table-2 tr {
+    display: block;
+  }
+  table.table-2 tr {
+    margin-bottom: 30px;
+  }
+  table.table-2 th,
+  table.table-2 td {
+    display: block;
+    text-align: center;
   }
 }
 

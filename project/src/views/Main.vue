@@ -14,12 +14,13 @@
         развиваемся. Будь с нами!
       </p>
       <div class="graph">
-        <div class="progress-bar blue stripes">
+        <img src="../assets/image/graph.png" width="250" alt="">
+        <!-- <div class="progress-bar blue stripes">
           <span style="width: 40%"></span>
         </div>
         <div class="progress-bar blue stripes">
           <span style="width: 60%"></span>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -54,6 +55,9 @@ export default {
 </script>
 
 <style scoped>
+#v-footer {
+    display: static;
+  }
 p {
   font-family: SeoulNamsan CM;
   font-style: normal;
@@ -219,8 +223,8 @@ p {
   max-width: 100%;
   margin: auto;
   margin-top: 50px;
-}
-.progress-bar {
+ }
+/*.progress-bar {
   background-color: #b6ffb9;
   height: 25px;
   padding: 5px;
@@ -345,7 +349,7 @@ p {
     0 -5px 5px rgba(255, 255, 255, 0.7) inset;
   box-shadow: 0 5px 5px rgba(255, 255, 255, 0.7) inset,
     0 -5px 5px rgba(255, 255, 255, 0.7) inset;
-}
+} */
 
 /*---------------------------*/
 

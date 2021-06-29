@@ -9,6 +9,9 @@
         </ul>
       </div>
     </div>
+    <div class="footer__link">
+© Каменских Светлана, 2021
+    </div>
   </div>
 </template>
 
@@ -20,9 +23,11 @@ export default {
 
 <style scoped>
 .v-footer {
+  display: flex;
+  flex-direction: column;
   margin-top: 100px;
-  position: -webkit-fixed;
-  position: fixed;
+  /* position: -webkit-fixed;
+  position: fixed; */
   left: 0;
   bottom: 0;
   width: 100%;
@@ -63,6 +68,10 @@ li {
   float: left;
   padding-right: 10px;
   padding-left: 10px;
+}
+.footer__link{
+  margin-top: 15px;
+  color: rgb(49, 49, 49);
 }
 @media screen and (max-width: 400px) {
   .footer__inner {

@@ -1,8 +1,11 @@
 <template>
 <body>
-   <v-header/>
+
+ <v-header id="v-header"/>
+
+  
   <router-view/>
-  <v-footer/>
+  <v-footer id="v-footer"/>
   </body>
 </template>
 

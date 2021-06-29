@@ -81,7 +81,7 @@
             type="date"
             id="myDate"
             :value="SetDate()"
-             :min="SetDate()"
+            :min="SetDate()"
             required
           />
         </div>
@@ -107,7 +107,9 @@
         <button @click="CreateOrder" class="create_card__button">
           Оформить заказ
         </button>
-        <p class="create_card__text">Итого: {{ summ_price.toFixed(2) }} Ꝑ</p>
+        <p class="create_card__text" id="create_card__text">
+          Итого: {{ summ_price.toFixed(2) }} Ꝑ
+        </p>
       </div>
     </div>
   </div>
@@ -172,29 +174,43 @@ export default {
     this.flat = this.customerData.flat;
     this.floor = this.customerData.floor;
     this.house = this.customerData.house;
-
-
   },
   methods: {
     CreateOrder() {
-      
-      
       //начать оформление заказа
       if (this.$store.getters.isCustomer === true) {
-      
         this.isClicked = true;
         this.SetDate();
-     
       } else {
-         alert("Для офрмления заказа необходимо авторизироваться!");
+        alert("Для офрмления заказа необходимо авторизироваться!");
       }
     },
-    SetDate(){
-    
-    var date = new Date();
-    this.selectedDate = date;
+    SetDate() {
+      var date = new Date();
+      // const today = new Date();
+      // const date_today =
+      //   today.getFullYear() +
+      //   "-" +
+      //   (today.getMonth() + 1) +
+      //   "-" +
+      //   today.getDate();
+      // if (today.getMonth() + 1 > date.getMonth() + 1) {
+      //   alert("Укажите верную дату!");
+      //   this.selectedDate = date_today;
+      //   date=date_today;
+      // } else if (today.getDate() + 1 > date.getDate() + 1) {
+      //   if (today.getMonth() + 1 > date.getMonth() + 1) {
+      //     alert("Укажите верную дату!");
+      //   this.selectedDate = date_today;
+      //   date=date_today;
+      //   }else{
+      //     this.selectedDate = date;
+      //   }
+      // }
+
+      this.selectedDate = date;
       // <!-- v-model="selectedDate" -->
-    return date;
+      return date;
     },
     inc(id, count) {
       console.log(id, count);
@@ -218,38 +234,40 @@ export default {
       });
     },
     MakeOrder() {
-      var selectedDate = document.getElementById('myDate').value;
-      if(selectedDate===''){
-         alert("Введите дату доставки!");
-      }else{
-//заказать
-      var params = {
-        customer_id: `${this.customer_id}`,
-        last_name: `${this.last_name}`,
-        first_name: `${this.first_name}`,
-        middle_name: `${this.middle_name}`,
-        city: `${this.city}`,
-        street: `${this.street}`,
-        flat: `${this.flat}`,
-        floor: `${this.floor}`,
-        house: `${this.house}`,
-        selectedDate: `${selectedDate}`,
-        selectedPay: `${this.selectedPay}`,
-        summ_price: `${this.summ_price}`,
-        products: this.products,
-      };
-      this.$store.commit("addCustomerData", params);
-      axios
-        .get("http://localhost/php/add_order.php", {
-          params,
-        })
-        .then(function (response) {
-          alert("Заказ принят!");
-          //перенаправить в каталог
-        });
+      var selectedDate = document.getElementById("myDate").value;
+      if (selectedDate.value === "") {
+        alert("Введите дату доставки!");
+      } else if (this.selectedPay === "") {
+        alert("Выберете способ оплаты!");
+      } else {
+        //заказать
+        var params = {
+          customer_id: `${this.customer_id}`,
+          last_name: `${this.last_name}`,
+          first_name: `${this.first_name}`,
+          middle_name: `${this.middle_name}`,
+          city: `${this.city}`,
+          street: `${this.street}`,
+          flat: `${this.flat}`,
+          floor: `${this.floor}`,
+          house: `${this.house}`,
+          selectedDate: `${selectedDate}`,
+          selectedPay: `${this.selectedPay}`,
+          summ_price: `${this.summ_price}`,
+          products: this.products,
+        };
+        this.$store.commit("addCustomerData", params);
+        axios
+          .get("http://localhost/php/add_order.php", {
+            params,
+          })
+          .then(function (response) {
+            alert("Заказ принят!");
+            router.replace("/catalog");
+            //перенаправить в каталог
+          });
       }
-      
-    }
+    },
   },
   computed: {
     summ_price: function () {
@@ -293,7 +311,7 @@ button {
 .customer-data__item input {
   width: 300px;
   height: 30px;
-  background: #E9EFF6;
+  background: #e9eff6;
   line-height: 40px;
   border-width: 0;
   border-radius: 20px;
@@ -303,7 +321,7 @@ button {
 .customer-data__item select {
   width: 300px;
   height: 30px;
-  background: #E9EFF6;
+  background: #e9eff6;
   line-height: 40px;
   border-width: 0;
   border-radius: 20px;
@@ -328,12 +346,20 @@ legend {
   margin-top: 10px;
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 400px) {
   .customer-data__item input {
-  max-width: 150px;
+    max-width: 150px;
+  }
+  .customer-data__item select {
+    max-width: 150px;
+  }
 }
-.customer-data__item select {
-  max-width: 150px;
+
+@page :first {
+  margin: 1cm;
 }
+
+@page :left {
+  margin: 1cm 3cm 1cm 1.5cm;
 }
 </style>
