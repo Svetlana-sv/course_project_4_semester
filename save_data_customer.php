@@ -14,3 +14,7 @@ $floor = $_GET['floor'];
 
 $sql = $connection->query("UPDATE customers SET last_name='$last_name', first_name='$first_name',middle_name='$middle_name',city='$city',
     street='$street',house='$house',flat='$flat',floor='$floor' WHERE customer_id = '$customer_id';");
+
+mysqli_close($connection);
+
+?>

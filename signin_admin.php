@@ -7,6 +7,7 @@
     $login = '';
     $password = '';
     
+    echo $login; 
 
     if (isset($_GET['login'])){
         $login = $_GET['login'];
@@ -28,4 +29,6 @@
     }
 
     echo json_encode(array('login'=>$login,'password'=>$password,'session'=> $_SESSION['login']));
+
+    mysqli_close($connection);
 ?>
