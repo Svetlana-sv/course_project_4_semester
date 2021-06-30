@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     SignIn() {
-      if (
+      if (//проверка введенных данных на корректность
         this.login === "" ||
         this.password === "" ||
         this.login.length != 11
@@ -159,13 +159,12 @@ export default {
         let vm = this;
         let params = { login: `${this.login}`, password: `${this.password}` };
         axios
-          .get("http://localhost/php/signin_customer.php", {
+          .get("http://localhost/php/signin_customer.php", {//отправление запроса на сервер
             params,
           })
           .then(function (response) {
             if (response.data.session) {
               vm.isCustomer = response.data.session;
-              console.log(response.data.session);
               if (response.data.session) {
                 vm.GetData(response.data.data);
                 vm.GetOrder();
@@ -265,9 +264,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #v-footer {
-  display: static;
+  display: block;
 }
 .signin {
   max-width: 100%;

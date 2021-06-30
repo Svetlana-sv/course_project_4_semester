@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import vHeader from '@/components/v-header.vue'
 import vFooter from '@/components/v-footer.vue'
 
@@ -39,7 +38,7 @@ export default {
       //     document.getElementById("btn") = response.data;
       //   });
     },
-  },
+  } 
 };
 </script>
 
@@ -63,6 +62,7 @@ body{
     font-family: 'Open Sans', sans-serif;
     min-height: 100%;
     position: relative; 
+    padding-bottom: 100px;
 }
 
 

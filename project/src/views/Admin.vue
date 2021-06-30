@@ -140,7 +140,7 @@ export default {
     return {
       login: "",
       password: "",
-      isAutorized: true,
+      isAutorized: false,
       products: [],
       categories: [],
       shops: [],
@@ -202,6 +202,7 @@ export default {
       });
     },
     SaveProduct(b) {
+      let vm = this;
       if (b) {
         if (this.query === true) {
           axios
@@ -218,6 +219,7 @@ export default {
             )
             .then(function (response) {
               alert("Сохранено!");
+               vm.getTableProducts();
             });
           var w = document.getElementById("window");
           w.style.display = "none";
@@ -236,6 +238,7 @@ export default {
             )
             .then(function (response) {
               alert("Сохранено!");
+              vm.getTableProducts();
             });
           var w = document.getElementById("window");
           w.style.display = "none";
@@ -261,6 +264,7 @@ export default {
       b.style.display = "none";
     },
     DeleteProduct() {
+      let vm = this;
       axios
         .get(
           `http://localhost/php/delete_data_products.php?
@@ -270,7 +274,7 @@ export default {
           alert("Удалено!");
           var w = document.getElementById("window");
           w.style.display = "none";
-          this.getTableProducts();
+           vm.getTableProducts();
         });
     },
   },
@@ -287,7 +291,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
 .admin {
   max-width: 100%;
   display: flex;
@@ -296,53 +301,23 @@ export default {
   margin: auto;
   padding: 0;
 }
-#v-header,
-#v-footer {
-  display: none;
-}
-.admin__panel {
-  /* display: grid;
-  grid-template-columns: 0.5fr 1.5fr 0fr;
-  grid-auto-rows: 1vmax;
-  gap: 0px 0px;
-  width: 100%;
-  max-height: 100%;
-  grid-template-areas:
-    "menu header"
-    "menu main"; */
-  width: 100%;
+.admin__panel{
   display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
   flex-direction: column;
-  text-align: center;
-  margin: auto;
-  padding: 0;
-}
-.main {
-  grid-area: main;
-  background-color: aqua;
-  bottom: 0;
-}
-.menu {
-  grid-area: menu;
-  background-color: rgb(72, 255, 0);
-  height: 100%;
-  bottom: 0;
-}
-.header {
-  grid-area: header;
-  background-color: rgb(255, 0, 89);
 }
 /* форма */
+.signin {
+  max-width: 100%;
+  min-height: 100%;
+  text-align: center;
+}
 .signin__form {
-  max-width: 30%;
+  max-width: 80%;
   margin: auto;
   margin-top: 50px;
   padding: 0;
   padding: 50px;
-  border: black solid 1px;
+  border: rgb(10, 191, 0) solid 1px;
   border-radius: 20px;
 }
 .form {
@@ -356,12 +331,18 @@ export default {
 .form__input {
   height: 35px;
   margin-bottom: 20px;
+  background: #e9eff6;
+  line-height: 40px;
+  border-width: 0;
+  border-radius: 20px;
+  padding: 0 20px;
 }
 .form__btn {
   height: 35px;
   width: 160px;
   margin: auto;
   padding: 0;
+  background: rgb(94, 225, 87);
   margin-bottom: 10px;
   font-size: var(--font--s--btn);
 }
@@ -478,11 +459,12 @@ table.table-2 td {
 }
 .form__data_products button {
   margin: auto;
+  height: 45px;
   margin-top: 15px;
 }
 button {
   margin-top: 15px;
-  height: 40px;
+  height: 45px;
   width: 160px;
   border-radius: 20px;
   margin-bottom: 5px;

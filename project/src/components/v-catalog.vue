@@ -53,14 +53,12 @@
 
 <script>
 import vCatalogItem from "./v-catalog-item.vue";
-import vPopup from "./v-popup.vue";
 import axios from "axios";
 
 export default {
   name: "v-catalog",
   components: {
-    vCatalogItem,
-    vPopup,
+    vCatalogItem
   },
   data() {
     //это персональные данные
@@ -129,7 +127,6 @@ export default {
         (x) =>
           (x.category_id===this.current_id_categories));
       }
-      console.log(this.current_id_shops);
        if(this.current_id_shops!=-1){
         return this.products.filter(
         (x) =>

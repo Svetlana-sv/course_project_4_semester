@@ -146,6 +146,13 @@ export default {
 .v-cart-item__input {
   width: 40px;
 }
+button{
+  font-family: 'Dela Gothic One', cursive;
+  margin: auto;
+}
+input{
+  height: 20px;
+}
 
 @media screen and (max-width: 900px) {
   .v-cart-item {
@@ -190,5 +197,6 @@ export default {
     margin: auto;
   }
 }
+
 
 </style>

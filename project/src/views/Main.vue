@@ -56,7 +56,7 @@ export default {
 
 <style scoped>
 #v-footer {
-    display: static;
+    display: block;
   }
 p {
   font-family: SeoulNamsan CM;
@@ -86,7 +86,6 @@ p {
   margin: auto;
   padding: 10px 0;
   text-align: center;
-  margin-bottom: 150px;
   background-color: rgba(181, 255, 155, 0.53);
 }
 .block_promo__container {
@@ -146,8 +145,8 @@ p {
   outline: none;
   font-size: 2em;
   color: #fff;
-  width: 250px;
-  height: 60px;
+  width: 220px;
+  height: 55px;
   margin-top: 50px;
 }
 .main__button a {

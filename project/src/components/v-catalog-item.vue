@@ -106,7 +106,9 @@ p {
   cursor: pointer;
   font-size: var(--font--s--btn);
 }
-
+button{
+  font-family: 'Dela Gothic One', cursive;
+}
 @media screen and (max-width: 300px) {
   .v-catalog-item {
   width: 160px;}

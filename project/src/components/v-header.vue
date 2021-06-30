@@ -8,7 +8,6 @@
           <li><router-link to="/catalog">Каталог</router-link></li>
           <li><router-link to="/signin">Вход</router-link></li>
           <li><router-link to="/cart">Корзина</router-link></li>
-          <li><router-link to="/admin">Админ</router-link></li>
         </ul>
       </div>
     </div>
@@ -28,6 +27,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
 .v-header {
   position: -webkit-sticky;
   position: sticky;
@@ -43,7 +43,9 @@ export default {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .header__logo_wrapper {
-  font-size: 2.5em;
+  font-size: 3em;
+  color: rgb(41, 41, 41);
+  font-family: 'Dela Gothic One', cursive;
 }
 
 .header__inner {
@@ -72,6 +74,7 @@ a {
 a:hover {
   color: rgb(73, 69, 69);
   cursor: pointer;
+  
 }
 a.router-link-exact-active {
   color: #ffffff;
@@ -80,10 +83,14 @@ li {
   float: left;
   padding-right: 10px;
   padding-left: 10px;
+  font-family: 'Dela Gothic One', cursive;
 }
 /* ::placeholder{
   color: #fff;
 } */
+button{
+  font-family: 'Dela Gothic One', cursive;
+}
 
 @media screen and (max-width: 400px) {
   .header__inner {

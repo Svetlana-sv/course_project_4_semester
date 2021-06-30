@@ -15,8 +15,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #v-footer {
-    display: static;
+  opacity: 1 !important;
+    display: block;
+    
   }
 </style>

@@ -119,6 +119,7 @@
 import vCartItem from "./v-cart-item.vue";
 import vCatalogItem from "./v-catalog-item.vue";
 import axios from "axios";
+import router from "../router/index";
 
 export default {
   name: "v-cart",
@@ -233,7 +234,7 @@ export default {
         //     console.log(element);
       });
     },
-    MakeOrder() {
+    MakeOrder() {     
       var selectedDate = document.getElementById("myDate").value;
       if (selectedDate.value === "") {
         alert("Введите дату доставки!");
@@ -263,8 +264,8 @@ export default {
           })
           .then(function (response) {
             alert("Заказ принят!");
-            router.replace("/catalog");
-            //перенаправить в каталог
+            router.replace("/signin");
+            //перенаправить в лк
           });
       }
     },
@@ -296,6 +297,8 @@ button {
   height: 35px;
   width: 160px;
   border-radius: 20px;
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 1em;
 }
 /* форма */
 .form__customer-data {
@@ -339,7 +342,9 @@ legend {
   font-size: 18px;
 }
 .create_card__button {
+  margin: auto;
   margin-top: 10px;
+  
 }
 .create_card__text {
   margin-bottom: 100px;

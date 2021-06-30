@@ -16,11 +16,9 @@ export default {
 };
 </script>
 
-<style>
-
-
+<style scoped>
   #v-footer {
-    display: none;
+    opacity: 0;
   }
 @media print {
   #v-header,

@@ -22,12 +22,14 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
 .v-footer {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
-  /* position: -webkit-fixed;
-  position: fixed; */
+  position: -webkit-fixed;
+  position: fixed;
+  
   left: 0;
   bottom: 0;
   width: 100%;
@@ -35,11 +37,12 @@ export default {
   background: #13e202;
   padding: 15px 0;
   z-index: 100;
-  -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  border-top: rgb(158, 158, 158) 1px solid;
 }
 .footer__logo-wrapper {
   font-size: 2em;
+  font-family: 'Dela Gothic One', cursive;
+  color: black;
 }
 .footer__inner {
   display: flex;
@@ -66,12 +69,16 @@ a:hover {
 }
 li {
   float: left;
+  font-size: 1.3em;
   padding-right: 10px;
   padding-left: 10px;
+  color: black;
+  font-family: 'Dosis', sans-serif;
 }
 .footer__link{
   margin-top: 15px;
   color: rgb(49, 49, 49);
+  font-family: 'Dosis', sans-serif;
 }
 @media screen and (max-width: 400px) {
   .footer__inner {
