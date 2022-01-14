@@ -5,7 +5,7 @@
       <p class="v-cart-item__name" id="v-cart-item__name">{{ name }}</p>
       <p class="v-cart-item__price" id="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
       <div class="v-cart-item__count">
-        <p class="v-cart-item__price">Кол-во:</p>
+        <!--<p class="v-cart-item__price">Кол-во:</p>-->
 
         <button
           class="v-cart-item__button-count"
@@ -115,14 +115,13 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.v-cart-item__image {
+.v-cart-item__image{
   margin-left: 20px;
-  width: 70px;
+  width: auto;
   height: 70px;
 }
 .v-cart-item__price {
-  padding-left: 10px;
-  min-width: 60px;
+  width: auto;
 }
 .v-cart-item__button {
   padding: 0;
@@ -138,9 +137,12 @@ export default {
 .v-cart-item__count {
   display: flex;
   flex-direction: row;
+  text-align:center;
+  justify-content: space-around;
 }
 .v-cart-item__button-count {
   width: 30px;
+  height: auto;
   border-radius: 20px;
 }
 .v-cart-item__input {
@@ -165,7 +167,6 @@ input{
   }
 }
 @media screen and (max-width: 700px) {
-  
   .v-cart-item {
     flex-direction: column;
     text-align: center;

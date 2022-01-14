@@ -39,18 +39,15 @@ export default {
 </script>
 
 <style scoped>
-p {
-  padding: 0;
-  margin: 0;
-}
 .v-catalog-item {
   width: 240px;
-  height: 310px;
+  height: 330px;
   background: #ffffff;
   box-shadow: 1px 4px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 39px;
   padding: 10px;
   margin-bottom: 10px;
+  
 }
 .v-catalog-item__name {
   white-space: nowrap;
@@ -63,7 +60,7 @@ p {
 .v-catalog-item__name-hint {
   display: none;
   overflow-wrap: break-word;
-  max-width: 240px;
+  max-width: 220px;
   box-shadow: 1px 4px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   background-color: #f2f0f0;
@@ -73,7 +70,7 @@ p {
   display: block;
   position: absolute;
   color: #151516;
-  font-size: 20px;
+  font-size: 18px;
   overflow: inherit;
   text-overflow: inherit;
   white-space: inherit;
@@ -82,16 +79,22 @@ p {
   text-align: left;
 }
 .v-catalog-item__container_image {
-  margin: auto;
+  margin: 10px;
   display: flex;
   align-items: center;
+  text-align: center;
   justify-content: center;
   justify-self: center;
   width: 200px;
   height: 200px;
-  margin-bottom: 10px;
 }
-.v-catalog-item__image {
+.v-catalog-item__image{
+   align-items: center;
+  text-align: center;
+  justify-content: center;
+  justify-self: center;
+}
+.v-catalog-item__container_image img{
   max-width: 200px;
   max-height: 200px;
 }
@@ -111,6 +114,16 @@ button{
 }
 @media screen and (max-width: 300px) {
   .v-catalog-item {
-  width: 160px;}
+    max-width: 160px;
+    max-height: 250px;
+  }
+  .v-catalog-item__container_image {
+    width: 120px;
+    height: 120px;
+}
+.v-catalog-item__container_image img{
+  max-width: 140px;
+  max-height: 140px;
+}
 }
 </style>

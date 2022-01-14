@@ -1,7 +1,7 @@
 <template>
   <div class="v-footer">
     <div class="footer__inner">
-      <div class="footer__logo-wrapper">Ваша Доставка</div>
+       <div class="footer__logo-wrapper"><img src="../assets/image/logo3.png" alt=""></div>
       <div class="footer__menu">
         <ul>
           <li><a href="#">7(999)-999-99-99</a></li>
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="footer__link">
-© Каменских Светлана, 2021
+© 2022 ООО Ваша Доставка
     </div>
   </div>
 </template>
@@ -26,28 +26,37 @@ export default {
 .v-footer {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
   position: -webkit-fixed;
-  position: fixed;
-  
+  position: static;
   left: 0;
   bottom: 0;
   width: 100%;
   min-height: 60px;
-  background: #13e202;
+  background: #ababab;
   padding: 15px 0;
   z-index: 100;
   border-top: rgb(158, 158, 158) 1px solid;
 }
 .footer__logo-wrapper {
-  font-size: 2em;
-  font-family: 'Dela Gothic One', cursive;
+  display: flex;
+  align-items: center; 
   color: black;
+  justify-content: center;
 }
+
+.footer__logo-wrapper img {
+ width: 180px;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 0px;
+}
+
 .footer__inner {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content:space-evenly;
 }
 .footer__menu {
   display: flex;
@@ -69,16 +78,16 @@ a:hover {
 }
 li {
   float: left;
-  font-size: 1.3em;
+  font-size: 1em;
   padding-right: 10px;
   padding-left: 10px;
   color: black;
   font-family: 'Dosis', sans-serif;
 }
 .footer__link{
-  margin-top: 15px;
-  color: rgb(49, 49, 49);
-  font-family: 'Dosis', sans-serif;
+  margin-top: 20px;
+  color: rgb(255, 255, 255);
+  font-family: sans-serif;
 }
 @media screen and (max-width: 400px) {
   .footer__inner {

@@ -285,6 +285,8 @@ export default {
 <style scoped>
 .cart {
   max-width: 100%;
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin: auto;

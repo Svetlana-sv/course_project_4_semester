@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <h1>Корзина</h1>
-    <v-cart />
+    <v-cart/>
   </div>
 </template>
 
@@ -16,63 +16,14 @@ export default {
 };
 </script>
 
-<style scoped>
-  #v-footer {
-    opacity: 0;
-  }
+<style>
 @media print {
   #v-header,
   #v-footer {
     display: none;
   }
-  body {
-    background-color: white;
-    page-break-inside: avoid;
-    orphans: 5;
-    widows: 2;
-    text-align: center;
+}
+  h1{
+    padding: 10px;
   }
-
-  #v-cart-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    min-height: 100px;
-    background: #ffffff;
-    border: none;
-    text-align: center;
-    width: 90%;
-    padding: 5px;
-    margin-bottom: 10px;
-    box-shadow: none;
-  }
-  button{
-    display: none;
-  }
-  p{
-    font-size: 1em;
-  }
-  #v-cart-item__name {
-  max-width: 200px;
-  min-height: 30px;
-  overflow-wrap: break-word;
-  overflow: inherit;
-  text-overflow: inherit;
-  white-space: inherit;
-}
-input{
-  height: 20px;
-  border: none;
-  font-size: 2em;
-}
-#v-cart-item__price{
-  font-size: 1em;
-}
-#create_card__text{
-  font-size: 2em;
-}
-image{
-  display: none;
-}
-}
 </style>

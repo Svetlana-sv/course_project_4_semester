@@ -10,27 +10,34 @@
     </div>
 
     <div class="category">
-      <h1>Категория</h1>
-      <div  class="category__products"  @click="ChooseCategory(-1)">
-         <a class="category__products_item">Все категории</a>
+      <p class="category__name">Категория</p>
+
+      <div class="category__item">
+         <a class="category__item" @click="ChooseCategory(-1)">Все категории</a>
       </div>
+     
       <div
         @click="ChooseCategory(category.category_id)"
-        class="category__products"
+        class="category__item"
         v-for="(category, index) in category_products"
         :key="index"
       >
-        <a class="category__products_item">{{ category.category_name }}</a>
+        <a class="category__item">{{ category.category_name }}</a>
       </div>
-      <h1>Магазин</h1>
-      <a class="category__shops_item"  @click="ChooseShop(-1)">Все магазины</a>
+
+     <p class="category__name">Магазин</p>
+
+     <div class="category__item">
+       <a class="category__item" @click="ChooseShop(-1)">Все магазины</a>
+     </div>
+      
       <div
       @click="ChooseShop(shop.shop_id)"
-        class="category__shops_item"
+        class="category__item"
         v-for="(shop, index) in shops"
         :key="index"
       >
-        <a class="category__shops_item">{{ shop.shop_name }}</a>
+        <a class="category__item">{{ shop.shop_name }}</a>
       </div>
     </div>
 
@@ -177,27 +184,20 @@ export default {
   grid-area: category;
   border-right: 1px solid grey;
 }
-.category__shops_item{
-    padding: 5px;
+.category__name{
+  font-size: 24px;
+  padding: 10px;
+  font-weight: bolder;
+}
+.category__item{
+  padding: 5px;
   text-decoration: none;
 }
-.category__shops_item:hover{
+.category__item:hover{
    cursor: pointer;
   color: rgb(0, 208, 42);
 }
 
-.category__products_item {
-  padding: 5px;
-  text-decoration: none;
-}
-.category__products_item:hover {
-  cursor: pointer;
-  color: rgb(0, 208, 42);
-}
-
-.category__shops_item {
-  padding: 5px;
-}
 .search {
   grid-area: search;
 }
@@ -214,6 +214,7 @@ export default {
 .search__input {
   width: 60%;
   height: 2em;
+  padding-left: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -237,7 +238,7 @@ label {
   padding: 0;
 }
 
-/* @media screen and (max-width: 600px) {
+ /*@media screen and (max-width: 600px) {
   .v-catalog {
   margin-top: 30px;
   margin-bottom: 80px;
@@ -265,6 +266,11 @@ label {
     "category"
     "items"
     ".";
+}
+.v-catalog__list { 
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
 }
 }
 </style>

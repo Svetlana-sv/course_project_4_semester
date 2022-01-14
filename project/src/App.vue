@@ -1,12 +1,12 @@
 <template>
-<body>
-
- <v-header id="v-header"/>
-
+  <div class="wrapper">
+      <v-header id="v-header"/>
+      <main class="main">
+          <router-view/>
+      </main>
+      <v-footer id="v-footer"/>
+  </div>
   
-  <router-view/>
-  <v-footer id="v-footer"/>
-  </body>
 </template>
 
 <script>
@@ -43,32 +43,34 @@ export default {
 </script>
 
 <style>
-:root{
-    --font--s--btn: 0.9em;
-    --color-primary: #f63;
-    --hover-color: #ff7e53
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
-html{
-  height: 100%;
-}
-a{
-  text-decoration: none;
-  color: #000;
-}
-body{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-    min-height: 100%;
-    position: relative; 
-    padding-bottom: 100px;
+html,body{
+  line-height: 1;
+  height: 100% !important;
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
 }
 
+.wrapper{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main{
+  flex: 1 1 auto;
+  
+}
 
 #app {
   font-family: 'Open Sans', sans-serif;
   font-weight: 500;
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -78,12 +80,14 @@ body{
 ::placeholder{
   font-family: 'Open Sans', sans-serif;
 }
-p{
-   padding: 0;
-  margin: 0;
-}
+
 button{
   font-family: 'Open Sans', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: #000;
 }
 
 </style>
