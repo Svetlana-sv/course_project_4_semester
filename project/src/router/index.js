@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Main from '../views/Main.vue'
-import admin from '../views/Admin.vue'
+import signinadmin from '../views/SignInAdmin.vue'
 
 
 const routes = [
@@ -21,8 +21,29 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'admin',
-    component: admin
+    name: 'SignInAdmin',
+    component: signinadmin
+  },
+  {
+    path: '/adminaccount',
+    name: 'AdminAccount',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/AdminAccount.vue')
+    }
+  },
+  {
+    path: '/customeraccount',
+    name: 'CustomerAccount',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/CustomerAccount.vue')
+    }
+  },
+  {
+    path: '/manageraccount',
+    name: 'ManagerAccount',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/ManagerAccount.vue')
+    }
   },
   {
     path: '/catalog',

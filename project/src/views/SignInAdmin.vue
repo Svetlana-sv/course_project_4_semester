@@ -1,109 +1,6 @@
 <template>
   <div class="admin">
-    <div v-if="isAutorized" class="admin__panel">
-      <div>
-        <button type="submit" @click="AddProduct()">Добавить товар</button>
-      </div>
-      <div class="window" id="window">
-        <form
-          action=""
-          class="form__data_products"
-          v-on:submit.prevent="onSubmit"
-        >
-          <div class="data_products__item">
-            <label for="">Название:</label>
-            <input type="text" placeholder="Название" v-model="name" />
-          </div>
-          <div class="data_products__item">
-            <label for="">Описание:</label>
-            <input type="text" placeholder="Описание" v-model="discription" />
-          </div>
-          <div class="data_products__item">
-            <label for="">Категория:</label>
-            <select v-model="selectedCategory">
-              <option
-                :value="c.category_id"
-                v-for="(c, index) in categories"
-                :key="index"
-              >
-                {{ c.category_name }}
-              </option>
-            </select>
-          </div>
-          <div class="data_products__item">
-            <label for="">Магазин:</label>
-            <select v-model="selectedShop">
-              <option
-                :value="s.shop_id"
-                v-for="(s, index) in shops"
-                :key="index"
-              >
-                {{ s.shop_name }}
-              </option>
-            </select>
-          </div>
-          <div class="data_products__item">
-            <label for="">Ссылка на картинку:</label>
-            <input
-              type="text"
-              placeholder="Ссылка на картинку"
-              v-model="link"
-            />
-          </div>
-          <div class="data_products__item">
-            <label for="">Цена:</label>
-            <input type="text" placeholder="Цена" v-model="price" />
-          </div>
-          <div class="data_products__item">
-            <label for="">Количество в:</label>
-            <input type="text" placeholder="кг/шт/г" v-model="quantity" />
-          </div>
-          <button type="submit" @click="SaveProduct(true)">Сохранить</button>
-          <button type="submit" @click="DeleteProduct()" id="btn_delete">
-            Удалить продукт
-          </button>
-          <button type="submit" @click="SaveProduct(false)">
-            Выйти без сохранения
-          </button>
-        </form>
-      </div>
-      <h1>Продукты</h1>
-      <div class="table-wrap">
-        <table class="table-2">
-          <tr>
-            <td class="td_id">product_id</td>
-            <td>product_name</td>
-            <td>product_discription</td>
-            <td>shop_name</td>
-            <td>category_name</td>
-            <td>product_image</td>
-            <td>price</td>
-            <td>quantity_name</td>
-          </tr>
-          <tr
-            @click="onRowClick(product.product_id)"
-            v-for="(product, index) in products"
-            :key="index"
-          >
-            <td class="td_id">{{ product.product_id }}</td>
-            <td>{{ product.product_name }}</td>
-            <td>{{ product.product_discription }}</td>
-            <td>{{ product.shop_name }}</td>
-            <td>{{ product.category_name }}</td>
-            <td class="td_img">
-              <img
-                :src="product.product_image"
-                alt=""
-                class="table__image"
-              /><br />{{ product.product_image }}
-            </td>
-            <td class="td_price">{{ product.price }}</td>
-            <td>{{ product.quantity_name }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div v-else>
+    <div>
       <h1>Форма авторизации</h1>
       <div class="signin__form">
         <form class="form" v-on:submit.prevent="onSubmit">
@@ -133,9 +30,10 @@
 
 <script>
 import axios from "axios";
+import router from '../router';
 
 export default {
-  name: "admin",
+  name: "signinadmin",
   data() {
     return {
       login: "",
@@ -169,7 +67,7 @@ export default {
         .then(function (response) {
           vm.isAutorized = response.data.session;
           if (response.data.session) {
-            vm.getTableProducts();
+              router.replace("adminaccount");
           }
         });
     },

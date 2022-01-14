@@ -1,66 +1,5 @@
 <template>
   <div class="signin">
-    <div v-if="isCustomer">
-      <div class="form__customer">
-        <h1>Личный кабинет</h1>
-
-        <form action="" class="form__customer-data" v-on:submit.prevent="onSubmit">
-          <legend>Персональные данные</legend>
-          <div class="customer-data__item">
-            <label for="lastname">Фамилия:</label>
-            <input type="text" placeholder="Фамилия" v-model="last_name" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Имя:</label>
-            <input type="text" placeholder="Имя" v-model="first_name" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Отчество:</label>
-            <input type="text" placeholder="Отчество" v-model="middle_name" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Город:</label>
-            <input type="text" placeholder="Город" v-model="city" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Улица:</label>
-            <input type="text" placeholder="Улица" v-model="street" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Дом:</label>
-            <input type="number" placeholder="Дом" v-model="house" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Квартира:</label>
-            <input type="number" placeholder="Квартира" v-model="flat" />
-          </div>
-          <div class="customer-data__item">
-            <label for="">Этаж:</label>
-            <input type="number" placeholder="Этаж" v-model="floor" />
-          </div>
-          <button type="submit" @click="SaveData">Сохранить</button>
-        </form>
-      </div>
-      <p>Мои заказы</p>
-      <div class="table-wrap">
-        <table class="table-2">
-          <tr>
-            <td>Дата заказа</td>
-            <td>Метод оплаты</td>
-            <td>Дата доставки</td>
-            <td>Сумма заказа</td>
-          </tr>
-          <tr v-for="(order, index) in orders" :key="index">
-            <td>{{ order.order_data }}</td>
-            <td>{{ order.payment_method }}</td>
-            <td>{{ order.delivery_data }}</td>
-            <td>{{ order.order_price }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div v-else id="autorize">
-      <h1>Личный кабинет</h1>
       <div class="autorize__form">
 
         <div class="signin__form">
@@ -110,15 +49,13 @@
             </form>
           </div>
         </div>
-
       </div>
-
-    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
+import router from '../router';
 
   export default {
     name: "SignIn",
@@ -175,19 +112,20 @@
             .then(function (response) {
              console.log(response);
               if (response.data.session) {
-                vm.isCustomer = response.data.session;
-                if (response.data.session) {
-                  vm.GetData(response.data.data);
-                  vm.GetOrder();
+                  //vm.GetData(response.data.data);
+                  //vm.GetOrder();
                   vm.customerData = response.data.data;
                   vm.$store.commit("addCustomerData", response.data.data);
-                  vm.$store.commit("changeStatus", vm.isCustomer);
-                  var r = document.getElementById("registration");
-                  r.style.display = "none";
+                  //vm.$store.commit("changeStatus", vm.isCustomer);
+                  if(response.data.role === "customer"){
+                    vm.isCustomer = response.data.session;
+                    router.replace("customeraccount");
+                  }else if(response.data.role === "manager"){
+                    router.replace("manageraccount");
+                  }
                 } else {
                   alert("Введите корректные данные!");
                 }
-              }
             });
         }
       },
@@ -218,63 +156,18 @@
             params,
           })
           .then(function (response) {
-            console.log(response.data.signup);
             if (response.data.signup) {
               alert("Вы успешно зарегистрированы!");
-              var r = document.getElementById("registration");
-              r.style.display = "none";
+               if(response.data.role === "customer"){
+                    router.replace("customeraccount");
+                  }else if(response.data.role === "manager"){
+                    router.replace("manageraccount");
+                  }
             } else {
               alert("Номер телефона уже зарегистрирован!");
             }
           });
-      },
-      SaveData() {
-        var params = {
-          customer_id: `${this.customer_id}`,
-          last_name: `${this.last_name}`,
-          first_name: `${this.first_name}`,
-          middle_name: `${this.middle_name}`,
-          city: `${this.city}`,
-          street: `${this.street}`,
-          flat: `${this.flat}`,
-          floor: `${this.floor}`,
-          house: `${this.house}`,
-        };
-        this.$store.commit("addCustomerData", params);
-        axios
-          .get("http://localhost/php/save_data_customer.php", {
-            params,
-          })
-          .then(function (response) {
-            alert("Данные успешно изменены!");
-            console.log(response);
-          });
-      },
-      GetData(data) {
-        this.customer_id = data.customer_id;
-        this.last_name = data.last_name;
-        this.first_name = data.first_name;
-        this.middle_name = data.middle_name;
-        this.city = data.city;
-        this.street = data.street;
-        this.flat = data.flat;
-        this.floor = data.floor;
-        this.house = data.house;
-      },
-      GetOrder() {
-        let vm = this;
-        var params = {
-          customer_id: `${this.customer_id}`
-        };
-        axios
-          .get("http://localhost/php/get_order.php", {
-            params,
-          })
-          .then(function (response) {
-            console.log(response);
-            vm.orders = response.data.orders;
-          });
-      },
+      }
     },
     created() {
       console.log("created");
