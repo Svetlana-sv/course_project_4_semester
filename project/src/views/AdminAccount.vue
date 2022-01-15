@@ -3,94 +3,153 @@
         <div class="admin__menu">
             <ul>
                 <li>
-                    <router-link to="/">Все клиенты</router-link>
+                    <button @click="changePage('clients')">Все клиенты</button>
                 </li>
                 <li>
-                    <router-link to="/catalog">Все менеджеры</router-link>
+                    <button @click="changePage('managers')">Все менеджеры</button>
                 </li>
                 <li>
-                    <router-link to="/cart">Все продукты</router-link>
+                    <button @click="changePage('products')">Все продукты</button>
                 </li>
             </ul>
         </div>
-        <div>
-            <button type="submit" @click="AddProduct()">Добавить товар</button>
+
+        <div v-if="page=='clients'">
+            <h1>Все клиенты</h1>
+            <div class="table-wrap">
+                <table class="table-2">
+                    <tr>
+                        <td class="td_id">customer_id</td>
+                        <td>first_name</td>
+                        <td>middle_name</td>
+                        <td>last_name</td>
+                        <td>city</td>
+                        <td>count_orders</td>
+                    </tr>
+                    <tr v-for="(customer, index) in customers" :key="index">
+                        <td class="td_id">{{ customer.customer_id }}</td>
+                        <td>{{ customer.first_name }}</td>
+                        <td>{{ customer.middle_name }}</td>
+                        <td>{{ customer.last_name }}</td>
+                        <td>{{ customer.city }}</td>
+                        <td>{{ customer.count_orders }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="window" id="window">
-            <form action="" class="form__data_products" v-on:submit.prevent="onSubmit">
-                <div class="data_products__item">
-                    <label for="">Название:</label>
-                    <input type="text" placeholder="Название" v-model="name" />
-                </div>
-                <div class="data_products__item">
-                    <label for="">Описание:</label>
-                    <input type="text" placeholder="Описание" v-model="discription" />
-                </div>
-                <div class="data_products__item">
-                    <label for="">Категория:</label>
-                    <select v-model="selectedCategory">
-                        <option :value="c.category_id" v-for="(c, index) in categories" :key="index">
-                            {{ c.category_name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="data_products__item">
-                    <label for="">Магазин:</label>
-                    <select v-model="selectedShop">
-                        <option :value="s.shop_id" v-for="(s, index) in shops" :key="index">
-                            {{ s.shop_name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="data_products__item">
-                    <label for="">Ссылка на картинку:</label>
-                    <input type="text" placeholder="Ссылка на картинку" v-model="link" />
-                </div>
-                <div class="data_products__item">
-                    <label for="">Цена:</label>
-                    <input type="text" placeholder="Цена" v-model="price" />
-                </div>
-                <div class="data_products__item">
-                    <label for="">Количество в:</label>
-                    <input type="text" placeholder="кг/шт/г" v-model="quantity" />
-                </div>
-                <button type="submit" @click="SaveProduct(true)">Сохранить</button>
-                <button type="submit" @click="DeleteProduct()" id="btn_delete">
-                    Удалить продукт
-                </button>
-                <button type="submit" @click="SaveProduct(false)">
-                    Выйти без сохранения
-                </button>
-            </form>
+
+        <div v-if="page=='managers'">
+            <h1>Все менеджеры</h1>
+            <div class="table-wrap">
+                <table class="table-2">
+                    <tr>
+                        <td class="td_id">manager_id</td>
+                        <td>first_name</td>
+                        <td>middle_name</td>
+                        <td>last_name</td>
+                        <td>shop</td>
+                        <td>confirmed</td>
+                        <td>status</td>
+                    </tr>
+                    <tr v-for="(manager, index) in managers" :key="index">
+                        <td class="td_id">{{ manager.manager_id }}</td>
+                        <td>{{ manager.first_name }}</td>
+                        <td>{{ manager.middle_name }}</td>
+                        <td>{{ manager.last_name }}</td>
+                        <td>{{ manager.shop_name }}</td>
+                        <td>{{ manager.confirmed }}</td>
+                        <td><button @click="changeStatusConfirmed()">Изменить статус</button></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <h1>Продукты</h1>
-        <div class="table-wrap">
-            <table class="table-2">
-                <tr>
-                    <td class="td_id">product_id</td>
-                    <td>product_name</td>
-                    <td>product_discription</td>
-                    <td>shop_name</td>
-                    <td>category_name</td>
-                    <td>product_image</td>
-                    <td>price</td>
-                    <td>quantity_name</td>
-                </tr>
-                <tr @click="onRowClick(product.product_id)" v-for="(product, index) in products" :key="index">
-                    <td class="td_id">{{ product.product_id }}</td>
-                    <td>{{ product.product_name }}</td>
-                    <td>{{ product.product_discription }}</td>
-                    <td>{{ product.shop_name }}</td>
-                    <td>{{ product.category_name }}</td>
-                    <td class="td_img">
-                        <img :src="product.product_image" alt=""
-                            class="table__image" /><br />{{ product.product_image }}
-                    </td>
-                    <td class="td_price">{{ product.price }}</td>
-                    <td>{{ product.quantity_name }}</td>
-                </tr>
-            </table>
+
+        <div v-if="page=='products'">
+            <h1>Продукты</h1>
+
+            <div class="products__button">
+                <button type="submit" @click="AddProduct()">Добавить товар</button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="table-2">
+                    <tr>
+                        <td class="td_id">product_id</td>
+                        <td>product_name</td>
+                        <td>product_discription</td>
+                        <td>shop_name</td>
+                        <td>category_name</td>
+                        <td>product_image</td>
+                        <td>price</td>
+                        <td>quantity_name</td>
+                    </tr>
+                    <tr @click="onRowClick(product.product_id)" v-for="(product, index) in products" :key="index">
+                        <td class="td_id">{{ product.product_id }}</td>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.product_discription }}</td>
+                        <td>{{ product.shop_name }}</td>
+                        <td>{{ product.category_name }}</td>
+                        <td class="td_img">
+                            <img :src="product.product_image" alt=""
+                                class="table__image" /><br />{{ product.product_image }}
+                        </td>
+                        <td class="td_price">{{ product.price }}</td>
+                        <td>{{ product.quantity_name }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="window" id="window">
+                <form action="" class="form__data_products" v-on:submit.prevent="onSubmit">
+                    <div class="data_products__item">
+                        <label for="">Название:</label>
+                        <input type="text" placeholder="Название" v-model="name" />
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Описание:</label>
+                        <input type="text" placeholder="Описание" v-model="discription" />
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Категория:</label>
+                        <select v-model="selectedCategory">
+                            <option :value="c.category_id" v-for="(c, index) in categories" :key="index">
+                                {{ c.category_name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Магазин:</label>
+                        <select v-model="selectedShop">
+                            <option :value="s.shop_id" v-for="(s, index) in shops" :key="index">
+                                {{ s.shop_name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Ссылка на картинку:</label>
+                        <input type="text" placeholder="Ссылка на картинку" v-model="link" />
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Цена:</label>
+                        <input type="text" placeholder="Цена" v-model="price" />
+                    </div>
+                    <div class="data_products__item">
+                        <label for="">Количество в:</label>
+                        <input type="text" placeholder="кг/шт/г" v-model="quantity" />
+                    </div>
+                    <button type="submit" @click="SaveProduct(true)">Сохранить</button>
+                    <button type="submit" @click="DeleteProduct()" id="btn_delete">
+                        Удалить продукт
+                    </button>
+                    <button type="submit" @click="SaveProduct(false)">
+                        Выйти без сохранения
+                    </button>
+                </form>
+            </div>
+
         </div>
+
+
     </div>
 
 </template>
@@ -103,6 +162,8 @@
         data() {
             return {
                 products: [],
+                customers: [],
+                managers: [],
                 categories: [],
                 shops: [],
                 name: "",
@@ -114,12 +175,22 @@
                 quantity: "",
                 id: -1,
                 query: false,
+                page: "clients"
             };
         },
         mounted: function () {
             //this.getTableData();
         },
         methods: {
+            changePage(page){
+                this.page = page;
+            },
+            getPath(link) {
+                return link;
+            },
+            changeStatusConfirmed(){
+
+            },
             getTableProducts() {
                 let vm = this;
                 axios
@@ -128,6 +199,22 @@
                         vm.products = response.data.products;
                         vm.categories = response.data.categories;
                         vm.shops = response.data.shops;
+                    });
+            },
+            getTableCustomers() {
+                let vm = this;
+                axios
+                    .get("http://localhost/php/get_table_customers.php")
+                    .then(function (response) {
+                        vm.customers = response.data.customers;
+                    });
+            },
+            getTableManagers() {
+                let vm = this;
+                axios
+                    .get("http://localhost/php/get_table_managers.php")
+                    .then(function (response) {
+                        vm.managers = response.data.managers;
                     });
             },
             onRowClick(id) {
@@ -234,27 +321,35 @@
         },
         created() {
             this.getTableProducts();
+            this.getTableCustomers();
+            this.getTableManagers();
         },
     };
 </script>
 
 <style>
-    .admin__menu{
+    .admin__menu {
         display: flex;
         flex-direction: row;
         vertical-align: middle;
-    } 
+    }
+    .admin__panel h1{
+        margin: 10px;
+    }
+
     ul {
-    list-style: none;
-    margin: auto;
-    padding: 0px;
-  }
-li {
-    float: left;
-    padding-right: 10px;
-    padding-left: 10px;
-    font-family: 'Dela Gothic One', cursive;
-  }
+        list-style: none;
+        margin: auto;
+        padding: 0px;
+    }
+
+    li {
+        float: left;
+        padding-right: 10px;
+        padding-left: 10px;
+        font-family: 'Dela Gothic One', cursive;
+    }
+
     .admin__panel {
         max-width: 100%;
         display: flex;
@@ -396,6 +491,10 @@ li {
         border: rgb(45, 221, 1) solid 2px;
     }
 
+    .products__button{
+        margin: 10px;
+    }
+
     .form__data_products {
         text-align: center;
         display: flex;
@@ -443,10 +542,9 @@ li {
     }
 
     button {
-        margin-top: 15px;
         height: 45px;
         width: 160px;
         border-radius: 20px;
-        margin-bottom: 5px;
+        margin: auto;
     }
 </style>

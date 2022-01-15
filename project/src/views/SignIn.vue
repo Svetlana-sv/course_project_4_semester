@@ -1,61 +1,37 @@
 <template>
-  <div class="signin">
-      <div class="autorize__form">
+  <div class="autorize__form">
+    <div class="signin__form">
+      <form class="form" v-on:submit.prevent="onSubmit">
+        <legend>Форма авторизации и регистрации</legend>
 
-        <div class="signin__form">
-          <form class="form" v-on:submit.prevent="onSubmit">
-            <legend>Форма авторизации</legend>
-
-            <div class="autorize__form__radio">
-              <div>
-                Выбирите роль:
-              </div>
-              <input type="radio" id="autorize_role1" value="customer" v-model="autorize_role">
-              <label for="autorize_role1">Покупатель</label>
-              <input type="radio" id="autorize_role2" value="manager" v-model="autorize_role">
-              <label for="autorize_role2">Менеджер</label>
-            </div>
-
-            <label class="form__label">Введите номер мобильного телефона:</label>
-            <input class="form__input" type="text" v-model="login" required autofocus placeholder="7 ХХХ ХХХ ХХ ХХ" />
-            <label class="form__label">Введите пароль:</label>
-            <input class="form__input" type="password" v-model="password" required placeholder="Введите пароль" />
-            <button class="form__btn" type="submit" @click="SignIn">Войти</button>
-          </form>
-        </div>
-
-        <div id="registration">
-          <div class="signin__form">
-            <form class="form" v-on:submit.prevent="onSubmit">
-              <legend>Форма регистрации</legend>
-
-              <div class="autorize__form__radio">
-                <div>
-                Выбирите роль:
-              </div>
-                <input type="radio" id="registr_role1" value="customer" v-model="registr_role">
-                <label for="registr_role1">Покупатель</label>
-                <input type="radio" id="registr_role2" value="manager" v-model="registr_role">
-                <label for="registr_role2">Менеджер</label>
-              </div>
-
-              <label class="form__label">Введите номер мобильного телефона:</label>
-              <input class="form__input" type="text" v-model="login1" required autofocus placeholder="7 ХХХ ХХХ ХХ ХХ" />
-              <label class="form__label">Придумайте пароль:</label>
-              <input class="form__input" type="password" v-model="password1" required placeholder="Введите пароль" />
-              <button class="form__btn" type="submit" @click="SignUp">
-                Зарегистрироваться
-              </button>
-            </form>
+        <div class="autorize__form__radio">
+          <div class="form__radio__item">Выбирите роль:</div>
+          <div class="form__radio__item">
+            <input type="radio" id="autorize_role1" value="customer" v-model="autorize_role">
+            <label for="autorize_role1">Покупатель</label>
           </div>
+          <div class="form__radio__item">
+            <input type="radio" id="autorize_role2" value="manager" v-model="autorize_role">
+            <label for="autorize_role2">Менеджер</label>
+          </div>
+
+
         </div>
-      </div>
+
+        <label class="form__label">Введите номер мобильного телефона:</label>
+        <input class="form__input" type="text" v-model="login" required autofocus placeholder="7 ХХХ ХХХ ХХ ХХ" />
+        <label class="form__label">Введите пароль:</label>
+        <input class="form__input" type="password" v-model="password" required placeholder="Введите пароль" />
+        <button class="form__btn" type="submit" @click="SignIn">Войти</button>
+        <button class="form__btn" type="submit" @click="SignUp">Зарегистрироваться</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios";
-import router from '../router';
+  import router from '../router';
 
   export default {
     name: "SignIn",
@@ -66,7 +42,6 @@ import router from '../router';
         login: "",
         password: "",
         role: "",
-        isCustomer: false,
         customerData: [],
         orders: [],
         customer_id: -1,
@@ -85,16 +60,13 @@ import router from '../router';
     methods: {
       SignIn() {
         //проверка введенных данных на корректность
-        if ( this.autorize_role === ""){
-          alert(
-            "Для авторизации необходимо выбрать роль!"
-          );
-          return;
+        if (this.autorize_role === "") {
+          alert("Для авторизации необходимо выбрать роль!");
+          return 0;
         }
-        if( this.login === "" ||
+        if (this.login === "" ||
           this.password === "" ||
-          this.login.length != 11)
-       {
+          this.login.length != 11) {
           alert(
             "Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX"
           );
@@ -110,31 +82,27 @@ import router from '../router';
               params,
             })
             .then(function (response) {
-             console.log(response);
+              console.log(response);
               if (response.data.session) {
-                  //vm.GetData(response.data.data);
-                  //vm.GetOrder();
-                  vm.customerData = response.data.data;
-                  vm.$store.commit("addCustomerData", response.data.data);
-                  //vm.$store.commit("changeStatus", vm.isCustomer);
-                  if(response.data.role === "customer"){
-                    vm.isCustomer = response.data.session;
-                    router.replace("customeraccount");
-                  }else if(response.data.role === "manager"){
-                    router.replace("manageraccount");
-                  }
-                } else {
-                  alert("Введите корректные данные!");
+                vm.customerData = response.data.data;
+                vm.$store.commit("addCustomerData", response.data.data);
+                if (response.data.role === "customer") {
+                  vm.$store.commit("ChangeStatusCustomer", response.data.session);
+                  router.replace("customeraccount");
+                } else if (response.data.role === "manager") {
+                  vm.$store.commit("ChangeStatusManager", response.data.session);
+                  router.replace("manageraccount");
                 }
+              } else {
+                alert("Введите корректные данные!");
+              }
             });
         }
       },
       SignUp: function () {
-         if ( this.registr_role === ""){
-          alert(
-            "Для регистрации необходимо выбрать роль!"
-          );
-          return;
+        if (this.registr_role === "") {
+          alert("Для регистрации необходимо выбрать роль!");
+          return 0;
         }
         if (
           this.login1 === "" ||
@@ -144,7 +112,7 @@ import router from '../router';
           alert(
             "Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX"
           );
-          return;
+          return 0;
         }
         let params = {
           login: `${this.login1}`,
@@ -158,11 +126,14 @@ import router from '../router';
           .then(function (response) {
             if (response.data.signup) {
               alert("Вы успешно зарегистрированы!");
-               if(response.data.role === "customer"){
-                    router.replace("customeraccount");
-                  }else if(response.data.role === "manager"){
-                    router.replace("manageraccount");
-                  }
+              if (response.data.role === "customer") {
+                vm.isCustomer = response.data.session;
+                vm.$store.commit("ChangeStatusCustomer", response.data.session);
+                router.replace("customeraccount");
+              } else if (response.data.role === "manager") {
+                vm.$store.commit("ChangeStatusManager", response.data.session);
+                router.replace("manageraccount");
+              }
             } else {
               alert("Номер телефона уже зарегистрирован!");
             }
@@ -192,18 +163,25 @@ import router from '../router';
   }
 
   .autorize__form {
-    margin-top: 50px;
+    margin-top: 40px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: row;
   }
-  .autorize__form__radio{
-    padding: 10px;
+
+  .autorize__form__radio {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 15px;
+  }
+  .form__radio__item{
+    padding: 5px;
   }
 
   .signin__form {
-    width: 350px;
+    width: 60%;
     margin: 0px;
     padding: 0;
     padding: 10px 50px 50px 50px;
@@ -272,8 +250,8 @@ import router from '../router';
   }
 
   .form__btn {
-    height: 35px;
-    width: 160px;
+    height: 40px;
+    width: 180px;
     margin: auto;
     padding: 0;
     background: rgb(94, 225, 87);
@@ -347,6 +325,8 @@ import router from '../router';
       display: block;
       text-align: center;
     }
+     .autorize__form__radio {
+    flex-direction: column;}
   }
 
   @media screen and (min-width: 1920px) {
@@ -356,9 +336,10 @@ import router from '../router';
   }
 
   @media screen and (max-width: 1000px) {
-    .autorize__form{
+    .autorize__form {
       flex-direction: column;
     }
+
     .signin__form {
       margin-bottom: 10px;
     }

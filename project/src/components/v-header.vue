@@ -18,7 +18,9 @@
         </ul>
       </div>
       <div class="header__menu_but">
-        <router-link to="/signin"><img src="../assets/image/лк.png" alt="">
+        <!-- <button @click="getPath()"><img src="../assets/image/лк.png" alt="">
+        Личный кабинет</button> -->
+        <router-link :to="getPath()"><img src="../assets/image/лк.png" alt="">
         Личный кабинет</router-link>
       </div>
     </div>
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import router from '../router';
   export default {
     name: "v-header",
     data() {
@@ -34,6 +37,17 @@
         title: "card",
       };
     },
+    methods:{
+    getPath: function () {
+      if (this.$store.getters.isCustomer === true){
+       return "customeraccount";
+      }else if (this.$store.getters.isManager === true){
+        return "manageraccount";
+      }else{
+        return "signin";
+      }
+    }
+    }
   };
 </script>
 

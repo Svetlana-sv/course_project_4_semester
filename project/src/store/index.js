@@ -4,6 +4,7 @@ export default createStore({
   state: {//переменн
     cart_cards: [],
     isCustomer: false,
+    isManager: false,
     customerData: []
   },
   mutations: {//методы изменяющие переменные
@@ -14,8 +15,11 @@ export default createStore({
           state.cart_cards.push(item);
         }
     },
-    changeStatus(state,status){
+    ChangeStatusCustomer(state,status){
       state.isCustomer=status;
+    },
+    ChangeStatusManager(state,status){
+      state.isManager=status;
     },
     addCustomerData(state,data){
       state.customerData=data;
@@ -31,6 +35,7 @@ export default createStore({
   getters: {//возращает переменные
     cart_cards: state => {return state.cart_cards;},
     isCustomer: state => {return state.isCustomer;},
+    isManager: state => {return state.isManager;},
     customerData: state => {return state.customerData;}
   }
 })

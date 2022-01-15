@@ -64,7 +64,7 @@ html,body{
 
 .main{
   flex: 1 1 auto;
-  
+  margin-bottom: 10px;
 }
 
 #app {

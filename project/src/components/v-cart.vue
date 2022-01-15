@@ -264,7 +264,7 @@ export default {
           })
           .then(function (response) {
             alert("Заказ принят!");
-            router.replace("/signin");
+            router.replace("/customeraccount");
             //перенаправить в лк
           });
       }
@@ -349,7 +349,7 @@ legend {
   
 }
 .create_card__text {
-  margin-bottom: 100px;
+  margin-bottom: 10px;
   margin-top: 10px;
 }
 

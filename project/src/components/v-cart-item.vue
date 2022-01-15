@@ -1,8 +1,10 @@
 <template>
   <div class="v-cart-item" id="v-cart-item">
-    <img class="v-cart-item__image" :src="product_image" alt="" />
     <div class="item__discription">
-      <p class="v-cart-item__name" id="v-cart-item__name">{{ name }}</p>
+      <div class="v-cart-item__image">
+        <img :src="product_image" alt="" />
+      </div>
+    <p class="v-cart-item__name" id="v-cart-item__name">{{ name }}</p>
       <p class="v-cart-item__price" id="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
       <div class="v-cart-item__count">
         <!--<p class="v-cart-item__price">Кол-во:</p>-->
@@ -17,6 +19,7 @@
         <input
           class="v-cart-item__input"
           type="number"
+          required
           v-model="count"
           :min="minCount"
           @change="changeCount"
@@ -43,7 +46,7 @@ export default {
     //это персональные данные
     return {
       count: 1,
-      minCount: 0,
+      minCount: 0.1,
       products: [],
     };
   },
@@ -104,10 +107,12 @@ export default {
 }
 .item__discription {
   text-align: left;
-  padding: 20px;
+  padding: 5px;
   display: grid;
+  
+  align-items: center;
   width: 90%;
-  grid-template-columns: 2fr 1fr 1.5fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
 }
 .v-cart-item__name {
   max-width: 250px;
@@ -116,12 +121,24 @@ export default {
   text-overflow: ellipsis;
 }
 .v-cart-item__image{
+  display: flex;
+  text-align: center;
+  align-items: center;
   margin-left: 20px;
-  width: auto;
-  height: 70px;
+  width: 90px;
+  height: 90px;
+}
+
+.v-cart-item__image img{
+  margin: auto;
+  max-width: 90px;
+  max-height: 90px;
 }
 .v-cart-item__price {
+  margin-left: 5px;
   width: auto;
+  align-items: center;
+  text-align: center;
 }
 .v-cart-item__button {
   padding: 0;
@@ -137,12 +154,48 @@ export default {
 .v-cart-item__count {
   display: flex;
   flex-direction: row;
-  text-align:center;
-  justify-content: space-around;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
+
+.v-cart-item__count input[type="number"] {
+	background-color: #eee;
+	vertical-align: top;
+	outline: none;
+	padding: 0;
+  margin: 5px;
+	height: 30px;
+	line-height: 40px;    
+	text-indent: 10px;
+	display: inline-block;
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	font-size: 14px;
+	border-radius: 3px;
+} 
+ 
+.v-cart-item__count input[type="number"]:focus {
+	outline: 2px solid rgb(43, 255, 0);
+}
+
+.v-cart-item__count input[type="number"]:invalid+span:after {
+	content: '✖';
+	padding-left: 5px;
+	color: red;
+}
+.v-cart-item__count input[type="number"]:valid+span:after {
+	content: '✓';
+	padding-left: 5px;
+	color: green;
+}
+
 .v-cart-item__button-count {
   width: 30px;
-  height: auto;
+  height: 30px;
+  border: 1px solid #ddd;
   border-radius: 20px;
 }
 .v-cart-item__input {
@@ -160,6 +213,7 @@ input{
   .v-cart-item {
     width: 80%;
     margin: auto;
+    margin-bottom: 10px;
   }
   .v-cart-item__count{
     text-align: center;
@@ -175,7 +229,7 @@ input{
    
   }
   .item__discription {
-    text-align: center;
+    justify-items: center;
     grid-template-columns: 1fr;
     gap: 20px;
   }
@@ -186,10 +240,6 @@ input{
     overflow: visible;
     text-overflow: clip;
   }
-  .v-cart-item__price {
-  padding: 0;
-  width: 80%;
-}
   .v-cart-item__image {
     margin: 0;
   }

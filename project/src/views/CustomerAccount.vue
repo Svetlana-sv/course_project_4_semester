@@ -1,7 +1,10 @@
 <template>
-    <div>
       <div class="form__customer">
         <h1>Личный кабинет</h1>
+
+        <div class="exit_btn">
+          <button @click="Exit()">Выйти</button>
+        </div>
 
         <form action="" class="form__customer-data" v-on:submit.prevent="onSubmit">
           <legend>Персональные данные</legend>
@@ -57,7 +60,6 @@
           </tr>
         </table>
       </div>
-    </div>
 </template>
 
 <script>
@@ -90,6 +92,11 @@
       };
     },
     methods: {
+      Exit(){
+         this.$store.commit("ChangeStatusCustomer", false);
+        //console.log(this.$store.getters.isCustomer);
+        router.replace("signin");
+      },
       SaveData() {
         var params = {
           customer_id: `${this.customer_id}`,
@@ -140,6 +147,7 @@
     },
     created() {
         this.isCustomer = this.$store.getters.isCustomer;
+        console.log(this.$store.getters.isCustomer);
         this.GetData(this.$store.getters.customerData);
         this.GetOrder();
         this.GetOrder();
@@ -148,20 +156,14 @@
 </script>
 
 <style>
-  
-
-  
-
- 
   .form__customer-data {
     text-align: center;
-    margin-bottom: 15px;
   }
 
   .form__customer {
     margin: auto;
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 10px;
   }
 
   .customer-data__item {
@@ -216,16 +218,7 @@
     font-size: var(--font--s--btn);
   }
 
-  button {
-    height: 35px;
-    width: 160px;
-    border-radius: 20px;
-    margin-bottom: 80px;
-  }
-
   @media screen and (max-width: 600px) {
-   
-
     .form__input {
       max-width: 100%;
       margin: auto;
