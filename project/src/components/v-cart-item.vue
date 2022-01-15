@@ -8,29 +8,15 @@
       <p class="v-cart-item__price" id="v-cart-item__price">Цена: {{ price }} Ꝑ</p>
       <div class="v-cart-item__count">
         <!--<p class="v-cart-item__price">Кол-во:</p>-->
-
-        <button
-          class="v-cart-item__button-count"
-          type="button"
-          @click="decreaseCount"
-        >
-          -
-        </button>
         <input
           class="v-cart-item__input"
           type="number"
           required
           v-model="count"
-          :min="minCount"
+          :min=1
+          :max="count_product"
           @change="changeCount"
         />
-        <button
-          class="v-cart-item__button-count"
-          type="button"
-          @click="increaseCount"
-        >
-          +
-        </button>
         <p class="v-cart-item__price">{{ quantity_name }}</p>
       </div>
     </div>
@@ -45,9 +31,8 @@ export default {
   data() {
     //это персональные данные
     return {
-      count: 1,
-      minCount: 0.1,
-      products: [],
+      count: 0,
+      products: [], 
     };
   },
   props: {
@@ -56,32 +41,25 @@ export default {
     price: Number,
     product_image: String,
     quantity_name: String,
+    count_product: Number,
   },
   methods: {
-    increaseCount() {
-      this.count++;
-      //this.changeCount();
-    },
-    decreaseCount() {
-      if (this.count > this.minCount) {
-        this.count--;
-      }
-     // this.changeCount();
-    },
     Delete() {
       this.$emit('deleteCard',this.product_id)
     },
     changeCount(){
-      console.log('changeCount',this.count);
       this.products = this.$store.getters.cart_cards;
-      //this.$emit('inc',this.product_id,this.count)
+
+      this.$emit('inc',this.product_id,this.count)
     }
   },
   watch: {
     count(count) {
-        this.$emit('inc',this.product_id,this.count)
-        // or generate/simulate a native events (not sure how, but its outside Vue's realm I think
+      this.$emit('inc',this.product_id,this.count)
     }
+},
+created() {
+  this.count=1;
 }
 };
 </script>

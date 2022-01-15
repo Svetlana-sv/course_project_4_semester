@@ -150,7 +150,6 @@
         console.log(this.$store.getters.isCustomer);
         this.GetData(this.$store.getters.customerData);
         this.GetOrder();
-        this.GetOrder();
     },
   };
 </script>
@@ -217,6 +216,8 @@
     margin-bottom: 10px;
     font-size: var(--font--s--btn);
   }
+
+ 
 
   @media screen and (max-width: 600px) {
     .form__input {

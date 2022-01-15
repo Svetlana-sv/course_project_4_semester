@@ -84,13 +84,13 @@
             .then(function (response) {
               console.log(response);
               if (response.data.session) {
-                vm.customerData = response.data.data;
-                vm.$store.commit("addCustomerData", response.data.data);
                 if (response.data.role === "customer") {
                   vm.$store.commit("ChangeStatusCustomer", response.data.session);
+                  vm.$store.commit("addCustomerData", response.data.data);
                   router.replace("customeraccount");
                 } else if (response.data.role === "manager") {
                   vm.$store.commit("ChangeStatusManager", response.data.session);
+                  vm.$store.commit("addManagerData", response.data.data);
                   router.replace("manageraccount");
                 }
               } else {
@@ -139,15 +139,7 @@
             }
           });
       }
-    },
-    created() {
-      console.log("created");
-      this.isCustomer = this.$store.getters.isCustomer;
-      if (this.isCustomer) {
-        this.GetData(this.$store.getters.customerData);
-        this.GetOrder();
-      }
-    },
+    }
   };
 </script>
 
@@ -261,9 +253,8 @@
 
   button {
     height: 35px;
-    width: 160px;
+    width: 175px;
     border-radius: 20px;
-    margin-bottom: 80px;
   }
 
   @media screen and (max-width: 600px) {

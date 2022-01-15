@@ -22,14 +22,19 @@
           </div>
           <div class="customer-data__item">
             <label for="">Организация (магазин):</label>
-            <input type="text" placeholder="Магазин" v-model="shop" />
+            <select v-model="shop">
+                            <option :value="s.shop_id" v-for="(s, index) in shops" :key="index">
+                                {{ s.shop_name }}
+                            </option>
+                        </select>
+            <!-- <input type="text" placeholder="Магазин" v-model="shop" /> -->
+          </div>
+          <div class="customer-data__item">
+            <label for="">Ваш текущий статус:</label>
+            <input class="item__readonly" type="text" readonly="readonly" v-model="confirmed" />
           </div>
           <button type="submit" @click="SaveData">Обновить</button>
         </form>
-      </div>
-
-      <div>
-          Ваш текущий статус: {{ confirmed}}
       </div>
 </template>
 
@@ -43,12 +48,12 @@
       return {
         isManager: false,
         managerData: [],
+        shops: [],
         manager_id: -1,
         last_name: "",
         first_name: "",
         middle_name: "",
-        shop: "",
-        confirmed: "Не подтвержден"
+        confirmed: ""
       };
     },
     methods: {
@@ -73,38 +78,30 @@
             alert("Данные отправлены на подтверждение!");
           });
       },
-      GetData(data) {
-        this.customer_id = data.customer_id;
-        this.last_name = data.last_name;
-        this.first_name = data.first_name;
-        this.middle_name = data.middle_name;
-        this.city = data.city;
-        this.street = data.street;
-        this.flat = data.flat;
-        this.floor = data.floor;
-        this.house = data.house;
-      },
-      GetOrder() {
-        let vm = this;
-        var params = {
-          customer_id: `${this.customer_id}`
-        };
+      GetData(data1) {
+          let vm = this;
+        this.manager_id = data1.manager_id;
+        this.last_name = data1.last_name;
+        this.first_name = data1.first_name;
+        this.middle_name = data1.middle_name;
+        this.shop = data1.shop_id;
+        if(data1.confirmed==1){
+            this.confirmed = "Подтвержден";
+        }else{
+            this.confirmed = "Не подтвержден";
+        }
         axios
-          .get("http://localhost/php/get_order.php", {
-            params,
+          .get("http://localhost/php/get_shops.php", {
           })
           .then(function (response) {
-            console.log(response);
-            vm.orders = response.data.orders;
+            vm.shops= response.data.shops;
+            console.log(response.data.shops);
           });
       },
     },
     created() {
-        this.isCustomer = this.$store.getters.isCustomer;
-        console.log(this.$store.getters.isCustomer);
-        this.GetData(this.$store.getters.customerData);
-        this.GetOrder();
-        this.GetOrder();
+       this.isManager = this.$store.getters.isManager;
+       this.GetData(this.$store.getters.managerData);
     },
 }
 </script>
@@ -127,8 +124,8 @@
     margin: 10px;
   }
 
-  .customer-data__item input {
-    background: #e9eff6;
+   .customer-data__item input {
+        background: #e9eff6;
     line-height: 40px;
     border-width: 0;
     border-radius: 20px;
@@ -136,7 +133,18 @@
     width: 70%;
     height: 30px;
     margin: auto;
-  }
+    }
+
+    .customer-data__item select {
+        width: 70%;
+        height: 30px;
+        background: #e9eff6;
+        line-height: 40px;
+        border-width: 0;
+        border-radius: 20px;
+        padding: 0 20px;
+        margin: auto;
+    }
 
   .customer-data__item label {
     margin-bottom: 10px;
@@ -171,6 +179,8 @@
     margin-bottom: 10px;
     font-size: var(--font--s--btn);
   }
+
+ 
 
   @media screen and (max-width: 600px) {
     .form__input {

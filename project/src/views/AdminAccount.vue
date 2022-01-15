@@ -58,7 +58,7 @@
                         <td>{{ manager.last_name }}</td>
                         <td>{{ manager.shop_name }}</td>
                         <td>{{ manager.confirmed }}</td>
-                        <td><button @click="changeStatusConfirmed()">Изменить статус</button></td>
+                        <td><button @click="changeStatusConfirmed(manager.manager_id)">Изменить статус</button></td>
                     </tr>
                 </table>
             </div>
@@ -188,8 +188,17 @@
             getPath(link) {
                 return link;
             },
-            changeStatusConfirmed(){
-
+            changeStatusConfirmed(id){
+                let vm = this;
+                axios
+                    .get(
+                        `http://localhost/php/change_status_confirmed.php?
+                manager_id=${id}`
+                    )
+                    .then(function (response) {
+                        alert("Изменено!");
+                        vm.getTableManagers();
+                    });
             },
             getTableProducts() {
                 let vm = this;

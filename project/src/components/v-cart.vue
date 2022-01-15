@@ -97,12 +97,15 @@
           v-for="(product, index) in products"
           :key="index"
           v-on:inc="inc"
+          v-on:amount_dec="amount_dec"
           v-on:deleteCard="deleteCard"
           :name="product.product_name"
           :product_id="product.product_id"
           :quantity_name="product.quantity_name"
           :price="product.price"
+          :count_product="product.amount"
           :product_image="product.product_image"
+
         />
         <button @click="CreateOrder" class="create_card__button">
           Оформить заказ
@@ -143,23 +146,7 @@ export default {
       house: -1,
       flat: -1,
       floor: -1,
-      products: [
-        {
-          id: 1,
-          title:
-            "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
-          price: 79.0,
-          product_image:
-            "https://www.pngkit.com/png/full/67-671010_milk-png-free-download-milk-in-a-pint.png",
-        },
-        {
-          id: 2,
-          title: "as2",
-          price: 79.0,
-          product_image:
-            "https://static.tildacdn.com/tild3333-6362-4031-a631-623532386533/banan_1.png",
-        },
-      ],
+      products: [],
     };
   },
   created() {
@@ -175,6 +162,8 @@ export default {
     this.flat = this.customerData.flat;
     this.floor = this.customerData.floor;
     this.house = this.customerData.house;
+
+    //console.log(this.products);
   },
   methods: {
     CreateOrder() {
@@ -183,47 +172,25 @@ export default {
         this.isClicked = true;
         this.SetDate();
       } else {
-        alert("Для офрмления заказа необходимо авторизироваться!");
+        alert("Для оформления заказа необходимо авторизироваться!");
       }
     },
     SetDate() {
       var date = new Date();
-      // const today = new Date();
-      // const date_today =
-      //   today.getFullYear() +
-      //   "-" +
-      //   (today.getMonth() + 1) +
-      //   "-" +
-      //   today.getDate();
-      // if (today.getMonth() + 1 > date.getMonth() + 1) {
-      //   alert("Укажите верную дату!");
-      //   this.selectedDate = date_today;
-      //   date=date_today;
-      // } else if (today.getDate() + 1 > date.getDate() + 1) {
-      //   if (today.getMonth() + 1 > date.getMonth() + 1) {
-      //     alert("Укажите верную дату!");
-      //   this.selectedDate = date_today;
-      //   date=date_today;
-      //   }else{
-      //     this.selectedDate = date;
-      //   }
-      // }
-
       this.selectedDate = date;
-      // <!-- v-model="selectedDate" -->
       return date;
     },
     inc(id, count) {
-      console.log(id, count);
       this.products.forEach((element) => {
         if (element.product_id === id) {
           element.count = count;
         }
-        console.log(element);
       });
     },
+    // amount_dec(count){
+    //   return count;
+    // },
     deleteCard(id) {
-      console.log(id);
       var index = 0;
       this.products.forEach((element) => {
         if (element.product_id === id) {

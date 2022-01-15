@@ -73,52 +73,9 @@ export default {
       current_id_categories: -1,
       current_id_shops: -1,
       search: '',
-      products: [
-        {
-          id: 1,
-          product_name: "Банfsddddddddddddddddddddddddddddddddddddddddddddddd fdsss f аны",
-          price: 79.0,
-          product_image: 'https://www.pngkit.com/png/full/67-671010_milk-png-free-download-milk-in-a-pint.png'
-        },
-        {
-          id: 2,
-          product_name: "as2",
-          price: 79.0,
-          product_image: 'https://static.tildacdn.com/tild3333-6362-4031-a631-623532386533/banan_1.png'
-        },
-        {
-          id: 3,
-          product_name: "as3",
-          price: 79.0,
-          product_image: 'https://pngimg.com/uploads/potato/potato_PNG98085.png'
-        },
-        {
-          id: 4,
-          product_name: "as4",
-          price: 79.0,
-          product_image: 'https://2.bp.blogspot.com/-pjWnt7Zripk/Xubp-Nzx_iI/AAAAAAAA008/UWtEjZUH0Bosu4NCjvkjynigX1tqk4rngCK4BGAYYCw/s1600/%25D1%2585%25D0%25BB%25D0%25B5%25D0%25B1_%2BDoV%2B%25286%2529.png'
-        }
-      ],
-      category_products: [
-        {
-          category_id: 1,
-          category_name: "Молочные продукты",
-        },
-        {
-          category_id: 2,
-          category_name: "Фрукты и овощи",
-        }
-      ],
-      shops: [
-       {
-          shop_id: 1,
-          shop_name: 'Перекресток'
-        },
-        {
-          shop_id: 2,
-          shop_name: 'Ашан'
-        }
-      ]
+      products: [],
+      category_products: [],
+      shops: []
     };
   },
   computed: {
@@ -145,9 +102,6 @@ export default {
     var vm = this;
     axios.get("http://localhost/php/get_card_products.php").then((res) => {
       vm.products = res.data.products;
-      // vm.products.forEach(element => {
-      //   element.price.toFixed(2);
-      // });
       vm.category_products = res.data.category_products;
       vm.shops = res.data.shops;
     });

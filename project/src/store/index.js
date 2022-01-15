@@ -5,7 +5,8 @@ export default createStore({
     cart_cards: [],
     isCustomer: false,
     isManager: false,
-    customerData: []
+    customerData: [],
+    managerData: []
   },
   mutations: {//методы изменяющие переменные
     addItem(state, item){//добавление карт в массив
@@ -23,6 +24,9 @@ export default createStore({
     },
     addCustomerData(state,data){
       state.customerData=data;
+    },
+    addManagerData(state,data){
+      state.managerData=data;
     }
   },
   actions: {//методы которые вызываюе mutations
@@ -36,6 +40,7 @@ export default createStore({
     cart_cards: state => {return state.cart_cards;},
     isCustomer: state => {return state.isCustomer;},
     isManager: state => {return state.isManager;},
-    customerData: state => {return state.customerData;}
+    customerData: state => {return state.customerData;},
+    managerData: state => {return state.managerData;}
   }
 })
