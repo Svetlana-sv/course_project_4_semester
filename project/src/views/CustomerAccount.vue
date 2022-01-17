@@ -116,7 +116,6 @@
           })
           .then(function (response) {
             alert("Данные успешно изменены!");
-            console.log(response);
           });
       },
       GetData(data) {
@@ -147,7 +146,6 @@
     },
     created() {
         this.isCustomer = this.$store.getters.isCustomer;
-        console.log(this.$store.getters.isCustomer);
         this.GetData(this.$store.getters.customerData);
         this.GetOrder();
     },

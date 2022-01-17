@@ -91,6 +91,7 @@
                 } else if (response.data.role === "manager") {
                   vm.$store.commit("ChangeStatusManager", response.data.session);
                   vm.$store.commit("addManagerData", response.data.data);
+                  console.log("Sign in ",response.data.data);
                   router.replace("manageraccount");
                 }
               } else {

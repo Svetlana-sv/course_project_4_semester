@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import Vue from 'vue'
+/* Для дашборда */
+import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
 
 
 
@@ -15,7 +18,7 @@ import Vue from 'vue'
 // // Make BootstrapVue available throughout your project
 // Vue.use(BootstrapVue)
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(store).use(router).use(VueChartkick).mount('#app')
 
 router.onError((error) => {
     const pattern = /Loading chunk (\d)+ failed/g;

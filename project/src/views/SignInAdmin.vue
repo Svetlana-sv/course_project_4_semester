@@ -1,30 +1,16 @@
 <template>
   <div class="admin">
-    <div>
-      <h1>Форма авторизации</h1>
       <div class="signin__form">
         <form class="form" v-on:submit.prevent="onSubmit">
-          <label class="form__label">Логин:</label>
-          <input
-            class="form__input"
-            type="text"
-            v-model="login"
-            required
-            autofocus
-            placeholder="Введите логин"
-          />
-          <label class="form__label">Пароль:</label>
-          <input
-            class="form__input"
-            type="password"
-            v-model="password"
-            required
-            placeholder="Введите пароль"
-          />
-          <button class="form__btn" type="submit" @click="SignIn">Войти</button>
-        </form>
+        <legend>Форма авторизации для администратора</legend>
+
+        <label class="form__label">Введите логин:</label>
+        <input class="form__input" type="text" v-model="login" required autofocus placeholder="Введите логин" />
+        <label class="form__label">Введите пароль:</label>
+        <input class="form__input" type="password" v-model="password" required placeholder="Введите пароль" />
+        <button class="form__btn" type="submit" @click="SignIn">Войти</button>
+      </form>
       </div>
-    </div>
   </div>
 </template>
 
@@ -198,52 +184,69 @@ export default {
   text-align: center;
   margin: auto;
   padding: 0;
+  margin-top: 40px;    
+    align-items: center;
+    flex-direction: row;
 }
 .admin__panel{
   display: flex;
   flex-direction: column;
 }
 /* форма */
-.signin {
-  max-width: 100%;
-  min-height: 100%;
-  text-align: center;
-}
-.signin__form {
-  max-width: 80%;
-  margin: auto;
-  margin-top: 50px;
-  padding: 0;
-  padding: 50px;
-  border: rgb(10, 191, 0) solid 1px;
-  border-radius: 20px;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-}
-.form__label {
-  text-align: left;
-  margin-bottom: 5px;
-}
-.form__input {
-  height: 35px;
-  margin-bottom: 20px;
-  background: #e9eff6;
-  line-height: 40px;
-  border-width: 0;
-  border-radius: 20px;
-  padding: 0 20px;
-}
-.form__btn {
-  height: 35px;
-  width: 160px;
-  margin: auto;
-  padding: 0;
-  background: rgb(94, 225, 87);
-  margin-bottom: 10px;
-  font-size: var(--font--s--btn);
-}
+
+  .signin {
+    max-width: 100%;
+    min-height: 100%;
+    text-align: center;
+  }
+  .signin__form {
+    width: 50%;
+    margin: 0px;
+    padding: 0;
+    padding: 10px 50px 50px 50px;
+    border: rgb(10, 191, 0) solid 1px;
+    border-radius: 20px;
+  }
+  .signin__form legend {
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.4em;
+  }
+ .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form__label {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .form__input {
+    height: 35px;
+    margin-bottom: 20px;
+    background: #e9eff6;
+    line-height: 40px;
+    border-width: 0;
+    border-radius: 20px;
+    padding: 0 20px;
+  }
+
+  .form__btn {
+    height: 40px;
+    width: 180px;
+    margin: auto;
+    padding: 0;
+    background: rgb(94, 225, 87);
+    margin-bottom: 10px;
+    font-size: var(--font--s--btn);
+  }
+
+  button {
+    height: 35px;
+    width: 175px;
+    border-radius: 20px;
+  }
 
 /* стили для таблицы */
 table.table-2 {
@@ -359,12 +362,5 @@ table.table-2 td {
   margin: auto;
   height: 45px;
   margin-top: 15px;
-}
-button {
-  margin-top: 15px;
-  height: 45px;
-  width: 160px;
-  border-radius: 20px;
-  margin-bottom: 5px;
 }
 </style>
