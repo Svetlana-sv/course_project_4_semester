@@ -188,40 +188,7 @@
     font-size: 1.4em;
   }
 
-  /**/
-  .form__customer-data {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-
-  .form__customer {
-    margin: auto;
-    text-align: center;
-    margin-bottom: 100px;
-  }
-
-  .customer-data__item {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin: 10px;
-  }
-
-  .customer-data__item input {
-    background: #e9eff6;
-    line-height: 40px;
-    border-width: 0;
-    border-radius: 20px;
-    padding: 0 20px;
-    width: 70%;
-    height: 30px;
-    margin: auto;
-  }
-
-  .customer-data__item label {
-    margin-bottom: 10px;
-  }
-
+  
   .form {
     display: flex;
     flex-direction: column;
@@ -281,42 +248,9 @@
     }
   }
 
-  /* стили для таблицы */
-  table.table-2 {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-  }
 
-  table.table-2 tr {
-    background-color: #f8f8f8;
-  }
-
-  table.table-2 th,
-  table.table-2 td {
-    text-align: left;
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-
-  table.table-2 th {
-    font-weight: bold;
-  }
 
   @media screen and (max-width: 600px) {
-    table.table-2 tr {
-      display: block;
-    }
-
-    table.table-2 tr {
-      margin-bottom: 30px;
-    }
-
-    table.table-2 th,
-    table.table-2 td {
-      display: block;
-      text-align: center;
-    }
      .autorize__form__radio {
     flex-direction: column;}
   }

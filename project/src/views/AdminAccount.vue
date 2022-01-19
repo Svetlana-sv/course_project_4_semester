@@ -11,6 +11,9 @@
                 <li>
                     <button @click="changePage('products')">Все продукты</button>
                 </li>
+                <li>
+                    <button @click="changePage('statistic')">Статистика</button>
+                </li>
             </ul>
         </div>
         <!-- Вкладка клиенты -->
@@ -37,6 +40,20 @@
                 </table>
             </div>
         </div>
+        <!-- Статистика -->
+        <div v-if="page=='statistic'">
+            <div class="dashboard">
+                <br>
+                <p>Количество продуктов</p>
+                <pie-chart :download="{background: '#fff'}" legend="right" :data="products_dashboard"></pie-chart>
+            </div>
+            <div class="dashboard">
+                <br>
+                <p>Количество заказов</p>
+                <line-chart :download="{background: '#fff'}" :data="test"></line-chart>
+            </div>
+        </div>
+
         <!-- Вкладка менеджеры -->
         <div v-if="page=='managers'">
             <h1>Все менеджеры</h1>
@@ -158,6 +175,14 @@
         name: "admin",
         data() {
             return {
+                test: {
+                    '2017-05-13': 2,
+                    '2017-05-14': 5
+                },
+                products_dashboard: [
+                    ['Blueberry', 44],
+                    ['Strawberry', 23]
+                ],
                 products: [],
                 customers: [],
                 managers: [],
@@ -184,6 +209,29 @@
             },
             getPath(link) {
                 return link;
+            },
+            GetDataDashboard() {
+                let vm = this;
+                axios
+                    .get("http://localhost/php/get_orders_dashboard.php")
+                    .then(function (response) {
+                        var data = response.data.test;
+                        vm.test = response.data.test;
+
+                        vm.test = [];
+                        data.forEach(element => {
+                            vm.test.push([`${element.order_data}`, element.count])
+                        });
+
+                        var data = response.data.products;
+                        vm.products_dashboard = response.data.products;
+
+                        vm.products_dashboard = [];
+                        data.forEach(element => {
+                            vm.products_dashboard.push([`${element.product_name}`, element.amount])
+                        });
+                    });
+                console.log(this.test);
             },
             changeStatusConfirmed(id) {
                 let vm = this;
@@ -329,11 +377,21 @@
             this.getTableProducts();
             this.getTableCustomers();
             this.getTableManagers();
+            this.GetDataDashboard();
         },
     };
 </script>
 
 <style>
+    .dashboard canvas {
+        max-width: 100%;
+    }
+
+    .dashboard {
+        max-width: 100%;
+        margin: auto;
+    }
+
     .admin__menu {
         display: flex;
         flex-direction: row;

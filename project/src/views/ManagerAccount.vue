@@ -38,8 +38,7 @@
 
     <div v-if="confirmed == 1">
       <div>
-        <p>Самый популярный товар: {{}} - {{}} заказов - {{}}₽</p>
-        <p>Максимальная прибыль: {{}}₽ - {{}} - {{}} заказов</p>
+        <p v-for="(p, index) in popular_product" :key="index">Самый популярный товар: {{p.product_name}} - {{p.c}} заказов - {{p.sum}}₽</p>
       </div>
 
       
@@ -57,18 +56,19 @@
                 </li> -->
         </ul>
       </div>
-   <line-chart :data="test"></line-chart>
+   
       <div v-if="page=='orders'">
         <h1>Таблица заказов</h1>
+        
         <div class="table-wrap">
           <table class="table-2">
             <tr>
-              <td class="td_id">order_id</td>
-              <td>order_data</td>
-              <td>product_name</td>
-              <td>sum</td>
-              <td>price</td>
-              <td>sum*price</td>
+              <td class="td_id">Номер заказа</td>
+              <td>Дата заказа</td>
+              <td>Название</td>
+              <td>Количесво</td>
+              <td>Цена</td>
+              <td>Общая сумма</td>
             </tr>
             <tr v-for="(order, index) in orders" :key="index">
               <td class="td_id">{{ order.order_id }}</td>
@@ -84,6 +84,7 @@
 
       <div v-if="page=='products'">
         <h1>Общая таблица всех продуктов</h1>
+              
         <div class="products__button">
           <button type="submit" @click="AddProduct()">Добавить товар</button>
         </div>
@@ -172,13 +173,13 @@
     name: "SignIn",
     data() {
       return {
-        test: {'2017-05-13': 2, '2017-05-14': 5},
         isManager: false,
         managerData: [],
         shops: [],
         products: [],
         categories: [],
         orders: [],
+        popular_product: [],
         manager_id: -1,
         last_name: "",
         first_name: "",
@@ -205,15 +206,6 @@
         this.$store.commit("ChangeStatusManager", false);
         router.replace("signin");
       },
-      GetDataDashboard(){
-      // let vm = this;
-      // axios
-      //     .get("http://localhost/php/get_orders_dashboard.php")
-      //     .then(function (response) {
-      //        vm.test = response.data;
-      //     });
-      // console.log(this.test); 
-    },
       changePage(page) {
         this.page = page;
       },
@@ -365,32 +357,64 @@
             vm.products = response.data.products;
             vm.orders = response.data.orders;
             vm.categories = response.data.categories;
+            vm.popular_product = response.data.popular_product;
           });
       }
     },
     created() {
       this.isManager = this.$store.getters.isManager;
       this.GetData(this.$store.getters.managerData);
-      this.GetDataDashboard();
     },
   }
 </script>
 
 <style>
-  .form__customer-data {
-    text-align: center;
+  .dashboard canvas{
+    max-width: 100%;
+  }
+
+  .dashboard{
+    max-width: 100%;
+    margin: auto;
   }
 
   .form__customer {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    padding: 0;
+  }
+
+  .form__customer-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
     margin: auto;
     text-align: center;
-    margin-bottom: 10px;
+    min-width: 60%;
+    max-width: 100%;
   }
+
+  .form__customer button{
+    margin: 10px;
+  }
+
+  .form__customer h1{
+    margin: 10px;
+  }
+
 
   .customer-data__item {
     display: flex;
     flex-direction: column;
     text-align: center;
+    min-width: 80%;
     margin: 10px;
   }
 
@@ -400,19 +424,19 @@
     border-width: 0;
     border-radius: 20px;
     padding: 0 20px;
-    width: 70%;
+    width: 100%;
     height: 30px;
     margin: auto;
   }
 
   .customer-data__item select {
-    width: 70%;
-    height: 30px;
     background: #e9eff6;
     line-height: 40px;
     border-width: 0;
     border-radius: 20px;
     padding: 0 20px;
+    width: 100%;
+    height: 30px;
     margin: auto;
   }
 
@@ -458,7 +482,7 @@
   table.table-2 {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
+    max-width: 100%;
   }
 
  table.table-2 tr {
@@ -467,7 +491,6 @@
 
     table.table-2 th,
     table.table-2 td {
-        text-align: center;
         padding: 8px;
         border: 1px solid rgb(28, 28, 28);
         white-space: normal;
@@ -487,6 +510,15 @@
         overflow: visible;
         text-overflow: clip;
         text-align: center;
+    }
+    .table-wrap{
+        max-width: 100%;
+        flex-direction: column;
+        margin: 10px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        justify-items: center;
     }
 
     .table__image {
@@ -515,7 +547,6 @@
 
     .admin__menu {
       flex-direction: column;
-      margin: 5px;
       align-items: center;
       justify-content: center;
       text-align: center;
