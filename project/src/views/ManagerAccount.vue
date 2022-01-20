@@ -659,5 +659,10 @@
       display: block;
       text-align: center;
     }
+    .data_products__item {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+    }
   }
 </style>
