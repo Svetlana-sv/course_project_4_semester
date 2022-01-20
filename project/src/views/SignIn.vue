@@ -37,8 +37,6 @@
     name: "SignIn",
     data() {
       return {
-        login1: "",
-        password1: "",
         login: "",
         password: "",
         role: "",
@@ -53,8 +51,7 @@
         house: -1,
         flat: -1,
         floor: -1,
-        autorize_role: "",
-        registr_role: ""
+        autorize_role: ""
       };
     },
     methods: {
@@ -101,14 +98,14 @@
         }
       },
       SignUp: function () {
-        if (this.registr_role === "") {
+        if (this.autorize_role === "") {
           alert("Для регистрации необходимо выбрать роль!");
           return 0;
         }
         if (
-          this.login1 === "" ||
-          this.password1 === "" ||
-          this.login1.length != 11
+          this.login === "" ||
+          this.password === "" ||
+          this.login.length != 11
         ) {
           alert(
             "Введите корректные данные! Формат для номера мобильного телефона : 7XXXXXXXXXX"
@@ -116,9 +113,9 @@
           return 0;
         }
         let params = {
-          login: `${this.login1}`,
-          password: `${this.password1}`,
-          role: `${this.registr_role}`
+          login: `${this.login}`,
+          password: `${this.password}`,
+          role: `${this.autorize_role}`
         };
         axios
           .get("http://localhost/php/signup_customer.php", {

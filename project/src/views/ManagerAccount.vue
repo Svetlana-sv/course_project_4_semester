@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <div v-if="page=='products'">
+      <div v-if="page=='products'" class="block__products">
         <h1>Общая таблица всех продуктов</h1>
               
         <div class="products__button">
@@ -115,9 +115,9 @@
             </tr>
           </table>
         </div>
-      </div>
 
-<!-- Всплывающее окно -->
+        <!-- Всплывающее окно -->
+        <div class="block__window">
         <div class="window" id="window">
             <form action="" class="form__data_products" v-on:submit.prevent="onSubmit">
                 <div class="data_products__item">
@@ -161,6 +161,10 @@
                 </button>
             </form>
         </div>
+        </div>
+      </div>
+
+        
     </div>
   </div>
 </template>
@@ -192,6 +196,7 @@
         discription: "",
         selectedCategory: "",
         selectedShop: "",
+        product_id: "",
         link: "",
         price: 0,
         amount: 0,
@@ -211,13 +216,15 @@
       },
       onRowClick(id) {
         this.product_id = id;
+        console.log(this.product_id);
         this.query = true;
         var w = document.getElementById("window");
         w.style.display = "block";
         var b = document.getElementById("btn_delete");
         b.style.display = "block";
         console.log(this.products);
-        this.products.forEach((element) => {
+        this.products_filter.forEach((element) => {
+          console.log(element);
             this.name = element.product_name;
             this.discription = element.product_discription;
             this.link = element.product_image;
@@ -365,6 +372,13 @@
       this.isManager = this.$store.getters.isManager;
       this.GetData(this.$store.getters.managerData);
     },
+    computed: {
+            products_filter: function () {
+                if (this.id != -1) {
+                    return this.products.filter((x) => x.product_id === this.product_id);
+                }
+            },
+        },
   }
 </script>
 
@@ -474,9 +488,81 @@
     font-size: var(--font--s--btn);
   }
 
+  .block__window{
+     max-width: 100%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        margin: auto;
+        padding: 0;
+  }
+  /* стили для всплывающего окна*/
+ #window {
+        display: none;
+        position: fixed;
+        text-align: center;
+        align-self: center;
+        margin: auto;
+        top: 100px;
+        max-width: 600px;
+        height: 510px;
+        background-color: rgb(255, 255, 255);
+        padding: 20px 50px;
+        color: black;
+        border-radius: 20px;
+        border: rgb(45, 221, 1) solid 2px;
+    }
 
+    .products__button {
+        margin: 10px;
+    }
 
- 
+    .form__data_products {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 100px;
+    }
+
+    .data_products__item {
+        display: grid;
+        grid-template-columns: 0.5fr 1fr;
+        text-align: left;
+        margin: 5px;
+    }
+
+    .data_products__item input {
+        width: 300px;
+        height: 30px;
+        background: #e9eff6;
+        line-height: 40px;
+        border-width: 0;
+        border-radius: 20px;
+        padding: 0 20px;
+        margin: auto;
+    }
+
+    .data_products__item select {
+        width: 300px;
+        height: 30px;
+        background: #e9eff6;
+        line-height: 40px;
+        border-width: 0;
+        border-radius: 20px;
+        padding: 0 20px;
+        margin: auto;
+    }
+
+    .data_products__item label {
+        margin-bottom: 10px;
+    }
+
+    .form__data_products button {
+        margin: auto;
+        height: 45px;
+        margin-top: 15px;
+    }
 
   /* стили для таблицы */
   table.table-2 {
