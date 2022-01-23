@@ -232,7 +232,7 @@ export default {
     padding: 0 20px;
   }
 
-  .form__btn {
+   .form__btn {
     height: 40px;
     width: 180px;
     margin: auto;
@@ -240,6 +240,7 @@ export default {
     background: rgb(94, 225, 87);
     margin-bottom: 10px;
     font-size: var(--font--s--btn);
+    font-size: 13px;
   }
 
   button {

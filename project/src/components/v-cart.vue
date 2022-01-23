@@ -264,7 +264,7 @@ export default {
 }
 button {
   height: 35px;
-  width: 160px;
+  width: 175px;
   border-radius: 20px;
   font-family: 'Dela Gothic One', cursive;
   font-size: 1em;

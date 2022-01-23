@@ -214,11 +214,12 @@
     background: rgb(94, 225, 87);
     margin-bottom: 10px;
     font-size: var(--font--s--btn);
+    font-size: 13px !important;
   }
 
   button {
     height: 35px;
-    width: 175px;
+    width: 175px !important;
     border-radius: 20px;
   }
 
