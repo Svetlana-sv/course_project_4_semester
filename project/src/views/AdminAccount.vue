@@ -627,7 +627,7 @@
 
     button {
         height: 45px;
-        width: 160px;
+        width: 175px;
         border-radius: 20px;
         margin: auto;
     }
