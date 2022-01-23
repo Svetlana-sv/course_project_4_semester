@@ -24,7 +24,8 @@ h2 {
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 22px;
+  margin: 5px;
 }
 
 h4 {
@@ -56,6 +57,7 @@ a span {
 
 span {
   font-size: 18px;
+  margin: 5px;
 }
 
 .page {
